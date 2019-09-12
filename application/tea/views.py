@@ -8,3 +8,5 @@ def tea_form():
 @app.route("/tea/")
 def tea_create():
     print(request.form.get("name"))
+
+    return "hello world"
