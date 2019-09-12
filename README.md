@@ -14,3 +14,5 @@ Toimintoja
   - teelajit voivat olla blendejä, jolloin niille löytyy suhteita Blend-liitostaulusta
   - jos tee on blend, niin tyyppi on kaikkien blendissä käytettyjen teetyyppien yhdistelmä
 
+# Sovellus Herokussa
+https://teetietokanta.herokuapp.com/
