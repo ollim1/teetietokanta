@@ -1,5 +1,12 @@
 from application import db
 
+class Ingredient(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(256), nullable=False)
+
+    def __init__(self, name):
+        self.name = name
+
 class Tea(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(256), nullable=False)
@@ -12,13 +19,6 @@ class Tea(db.Model):
         self.temperature = temperature
         self.brewtime = brewtime
         self.boiled = boiled
-
-class Ingredient(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable=False)
-
-    def __init__(self, name):
-        self.name = name
 
 class Type(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -48,11 +48,3 @@ class Review(db.Model):
         self.temperature = temperature
         self.brewtime = brewtime
         self.boiled = boiled
-
-class TeaIngredient(db.Model):
-    tea = db.Column(db.Integer, db.ForeignKey('tea.id')
-    ingredient = db.Column(db.Integer, db.ForeignKey('ingredient.id')
-
-    def __init__(self, tea, ingredient):
-        self.tea = tea
-        self.ingredient = ingredient

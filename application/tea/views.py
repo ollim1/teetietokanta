@@ -1,12 +1,13 @@
 from application import app
-from flask import render_template, request
+from flask import redirect, render_template, request, url_for
 
-@app.route("/tea/newtea/")
-def tea_form():
-    return render_template("tea/newtea.html")
+temp_list = ["musta tee", "vihreä tee", "valkoinen tee"]
 
-@app.route("/tea/")
-def tea_create():
-    print(request.form.get("name"))
+@app.route("/ingredients")
+def ingredients_page():
+    return render_template("ingredients.html", ingredients = temp_list)
 
-    return "hello world"
+@app.route("/add_ingredient", methods=["POST"])
+def add_ingredient():
+    print("added ingredient " + request.form.get("name"))
+    return redirect(url_for("ingredients_page"))

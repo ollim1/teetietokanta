@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1> Ainesosat </h1>
+<table>
+  {% for ingredient in ingredients %}
+  <tr>
+    <td>{{ingredient}}</td>
+  </tr>
+  {% endfor %}
+</table>
+<form action="{{url_for('add_ingredient')}}" method="POST">
+  <input type="text" name="name">
+  <input type="submit">
+</form>
+{% endblock %}
