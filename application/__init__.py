@@ -10,5 +10,6 @@ db = SQLAlchemy(app)
 from application import views
 
 from application.tea import models
+from application.tea import views
 
 db.create_all()

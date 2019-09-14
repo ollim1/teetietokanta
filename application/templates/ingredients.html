@@ -1,16 +1,17 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h1> Ainesosat </h1>
+<h2> Ainesosat </h2>
 <table>
   {% for ingredient in ingredients %}
   <tr>
-    <td>{{ingredient}}</td>
+    <td>{{ingredient.name}}</td>
   </tr>
   {% endfor %}
 </table>
 <form action="{{url_for('add_ingredient')}}" method="POST">
   <input type="text" name="name">
-  <input type="submit">
+  <input type="submit" value="Lisää ainesosa">
 </form>
+<p> <a href="{{url_for('index')}}">Palaa alkuun</a> </p>
 {% endblock %}
