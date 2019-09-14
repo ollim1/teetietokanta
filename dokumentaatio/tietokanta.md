@@ -1,6 +1,6 @@
 ### käsitteet
-- Käyttäjä
-- Teelaji
+  - Käyttäjä
+  - Teelaji
 - Ainesosa
 - Teetyyppi
 - Arvostelu
@@ -64,8 +64,8 @@
 [TeaIngredient|(fk) tea:integer; (fk) ingredient:integer]
 
 [User]1--*[Review]
-[Tea]*--1[TeaType]
 [Review]*--1[Tea]
 [TeaIngredient]*--1[Tea]
+[Ingredient]*--1[TeaType]
 [TeaIngredient]*--1[Ingredient]
 ```

@@ -10,7 +10,12 @@ def ingredients_page():
 
 @app.route("/add_ingredient", methods=["POST"])
 def add_ingredient():
-    i = Ingredient(request.form.get("name"))
+    name = request.form.get("name")
+    teatype = request.form.get("teatype")
+    if not teatype:
+        i = Ingredient(name)
+    else:
+        i = Ingredient(name, teatype)
     db.session.add(i)
     db.session.commit()
     print("added " + Ingredient.name + " to db")
