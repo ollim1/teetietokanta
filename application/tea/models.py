@@ -24,7 +24,8 @@ class Ingredient(db.Model):
     teas = relationship("Tea", secondary = teaingredient, back_populates = "ingredients")
     def __init__(self, name, teatype = None):
         self.name = name
-        self.teatype = teatype
+        if teatype:
+            self.teatype = teatype.id
 
 class Tea(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -58,7 +59,8 @@ class Review(db.Model):
 
     def __init__(self, user, tea, content, temperature, brewtime, boiled):
         self.user = user
-        self.tea = tea
+        if tea:
+            self.tea = tea.id
         self.content = content
         self.temperature = temperature
         self.brewtime = brewtime

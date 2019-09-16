@@ -1,2 +1,4 @@
 * { font-family: sans-serif, "Helvetica", "Arial"; }
 p { font-size: 10pt !important; }
+.labelrow td { text-align: center; }
+.form-table select, .form-table input { width: 15em; }
