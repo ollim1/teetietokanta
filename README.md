@@ -1,4 +1,6 @@
 ### Teetietokanta
+https://teetietokanta.herokuapp.com/
+
 Tietokantaan tallennetaan erilaisia teetyyppejä haudutusohjeineen. Tietokanta suosittelee haudutustapoja arvioiden ja alustavien tietojen perusteella.
 Käyttäjät voivat arvioida teelajeja ja merkitä arviointeihin haudutusajan ja -lämpötilan, tiedon, onko vettä kiehautettu ennen sopivaan lämpötilaan saattamista ja lyhyen kommentin.
 Käyttäjät voivat myös lisätä teelajeja ja teen ainesosia.
@@ -14,3 +16,8 @@ Toimintoja
   - erilaisten teelehtien ja muiden ainesosien yhdistelmiä
   - teelajit voivat olla blendejä
   - jos tee on blend, niin tyyppi on kaikkien blendissä käytettyjen teetyyppien yhdistelmä
+
+### Dokumentaatio
+[Tietokantakuvaus](dokumentaatio/tietokantakaavio.png)
+[Tietokantakaavio](dokumentaatio/tietokantakaavio.png)
+[User storyt](dokumentaatio/tietokantakaavio.png)

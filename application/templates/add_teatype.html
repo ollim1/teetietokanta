@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Lisää teetyyppi</h2>
+<div class="form">
+  <form action="{{url_for('add_teatype')}}" method="POST">
+    <table class="form-table">
+      <tr class="labelrow">
+        <td>
+          {{form.name.label}}
+        </td>
+      </tr>
+      <tr class="contentrow">
+        <td>
+          {{form.name}}
+        </td>
+      </tr>
+    </table>
+    <div>
+      <input type="submit" value="Lisää teetyyppi">
+    </div>
+  </form>
+</div>
+{% endblock %}
+

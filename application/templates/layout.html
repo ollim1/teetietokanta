@@ -7,7 +7,14 @@
   </head>
 
   <body>
-  <h1> Teetietokanta </h1>
+    <h1> Teetietokanta </h1>
+    <ul>
+      <li> <a href="{{url_for('ingredients_page')}}">Ainesosat</a> </li>
+      <li> <a href="{{url_for('add_ingredient')}}">Lisää ainesosa</a> </li>
+      <li> <a href="{{url_for('teatypes_page')}}">Teetyypit</a> </li>
+      <li> <a href="{{url_for('add_teatype')}}">Lisää teetyyppi</a> </li>
+    </ul>
+
     {% block body %}
     <p>
     Content.

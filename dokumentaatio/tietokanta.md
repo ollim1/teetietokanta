@@ -1,6 +1,6 @@
 ### käsitteet
-  - Käyttäjä
-  - Teelaji
+- Käyttäjä
+- Teelaji
 - Ainesosa
 - Teetyyppi
 - Arvostelu
@@ -69,3 +69,5 @@
 [Ingredient]*--1[TeaType]
 [TeaIngredient]*--1[Ingredient]
 ```
+
+![Tietokantakaavio](tietokantakaavio.png)

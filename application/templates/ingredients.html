@@ -4,47 +4,32 @@
 <h2> Ainesosat </h2>
 <div id="list">
   <table>
-    {% for ingredient in ingredients %}
+    <tr class="labelrow">
+      <td>Ainesosa</td>
+      <td>Teetyyppi</td>
+    </tr>
+    {% for item in ingredients %}
     <tr>
-      <td>{{ingredient.name}} 
-        {%if ingredient.teatype%}
-        {{ingredient.teatype}}
-        {%endif%}</td>
+      <td>
+        <span class="ingredient teaitem">{{item.Ingredient.name}}</span>
+      </td>
+      <td>
+        <span class="teatype teaitem">{%if item.TeaType %}{{item.TeaType.name}}{%endif%}</span>
+      </td>
+      <td>
+        <form action="modify_ingredient", method="POST">
+          <input type="hidden" name="ingredient_id" value="{{item.Ingredient.id}}"/>
+          <select name="teatype_id">
+            <option value="-1">Tyhjä</option>
+            {%for teatype in teatypes%}
+            <option value="{{teatype.id}}">{{teatype.name}}</option>
+            {%endfor%}
+          </select>
+          <input type="submit" value="Vaihda teetyyppi">
+        </form>
+      </td>
     </tr>
     {% endfor %}
   </table>
 </div>
-<h2>Lisää ainesosa</h2>
-<div class="form">
-  <form action="{{url_for('add_ingredient')}}" method="POST">
-    <table class="form-table">
-      <tr class="labelrow">
-        <td>Ainesosan nimi</td>
-        <td>Valitse teetyyppi, tai...</td>
-        <td>Etsi tai lisää uusi teetyyppi</td>
-      </tr>
-      <tr class="contentrow">
-        <td>
-          <input type="text" name="name">
-        </td>
-        <td>
-          <select name="teatype_id">
-            <option value="-1" selected="selected">Tyhjä</option>
-            {% for teatype in teatypes %}
-            <option value="{{teatype.id}}">{{teatype.name}}</option>
-            {%endfor%}
-          </select>
-        </td>
-        <td>
-          <input type="text" name="teatype_name">
-        </td>
-        </td>
-      </tr>
-    </table>
-    <div>
-      <input type="submit" value="Lisää ainesosa">
-    </div>
-  </form>
-</div>
-<p> <a href="{{url_for('index')}}">Palaa alkuun</a> </p>
 {% endblock %}
