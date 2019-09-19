@@ -5,5 +5,3 @@ Käyttäjä on lisäämässä tietokantaan uusia ainesosia. Ainesosat luokitella
 Käyttäjä on lisäämässä uutta teetä tietokantaan. Käyttäjä valitsee ainesosat kuten teelehdet ja mausteet valikosta ja määrittää teen nimen ja haudutustiedot.
 ## tapaus 3
 Käyttäjä haluaa kirjoittaa arvostelun teestä tai haudukkeesta. Käyttäjä kirjautuu sisään käyttäjätunnuksellaan, kirjoittaa arvostelutekstin ja antaa arvosanan. Käytetyn haudutuksen yksityiskohdat ovat toivottuja tilastoja ja muiden käyttöä varten.
-## tapaus 4
-Ylläpitäjä korjaa ainesosien tietoja
