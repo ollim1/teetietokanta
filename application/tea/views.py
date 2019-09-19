@@ -64,4 +64,4 @@ def add_ingredient():
         db.session.commit()
         return redirect(url_for("ingredients_page"))
     else:
-        return render_template("add_ingredient.html", form = AddIngredientForm())
+        return render_template("add_ingredient.html", form = AddIngredientForm(), teatypes = TeaType.query.all())
