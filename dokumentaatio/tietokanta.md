@@ -1,6 +1,6 @@
 ### käsitteet
-- Käyttäjä
-- Teelaji
+  - Käyttäjä
+  - Teelaji
 - Ainesosa
 - Teetyyppi
 - Arvostelu
@@ -52,4 +52,20 @@
 [Arvostelu]*--1[Teelaji]
 [TeeAinesosa]*--1[Teelaji]
 [TeeAinesosa]*--1[Ainesosa]
+```
+
+- Tallennetaan tietokanta sovelluksessa englanniksi.
+
+```
+[User|(pk) id:integer;name:string]
+[Tea|(pk) id:integer;name:string;(fk) type:integer;brewingtime:integer;temperature:integer;boiled:boolean]
+[TeaType|(pk) id:integer;name:string]
+[Review|(pk) id:integer;(fk) tea:integer;score:integer;text:string;brewtime:integer;temperature:integer;boiled:boolean]
+[TeaIngredient|(fk) tea:integer; (fk) ingredient:integer]
+
+[User]1--*[Review]
+[Review]*--1[Tea]
+[TeaIngredient]*--1[Tea]
+[Ingredient]*--1[TeaType]
+[TeaIngredient]*--1[Ingredient]
 ```

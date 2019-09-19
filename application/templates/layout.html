@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/template.css')}}">
+    <title>Teetietokanta</title>
+  </head>
+
+  <body>
+  <h1> Teetietokanta </h1>
+    {% block body %}
+    <p>
+    Content.
+    </p>
+    {% endblock %}
+  </body>
+</html>
