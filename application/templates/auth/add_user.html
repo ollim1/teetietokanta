@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Luo käyttäjä</h2>
+<div class="form">
+  <form action="{{url_for('auth_add_user')}}" method="POST">
+    <table class="form-table">
+      <tr class="labelrow">
+        <td>
+          {{form.name.label}}
+        </td>
+        <td>
+          {{form.username.label}}
+        </td>
+        <td>
+          {{form.password.label}}
+        </td>
+      </tr>
+      <tr class="contentrow">
+        <td>
+          {{form.name}}
+        </td>
+        <td>
+          {{form.username}}
+        </td>
+        <td>
+          {{form.password}}
+        </td>
+      </tr>
+    </table>
+    <div>
+      <input type="submit" value="Luo uusi käyttäjä">
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+

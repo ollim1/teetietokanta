@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/template.css')}}">
     <title>Teetietokanta</title>
   </head>
+  <p>
+  {%if current_user and current_user.is_authenticated%}
+  Käyttäjä: {{current_user.name}} <a href="{{url_for('auth_logout')}}">Kirjaudu ulos</a>
+  {%else%}
+  <a href="{{url_for('auth_add_user')}}">Luo uusi käyttäjä</a>
+  <a href="{{url_for('auth_login')}}">Kirjaudu sisään</a>
+  {%endif%}
+  </p>
 
   <body>
     <h1> Teetietokanta </h1>
