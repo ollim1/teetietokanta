@@ -25,7 +25,7 @@ class Ingredient(db.Model):
     def __init__(self, name, teatype = None):
         self.name = name
         if teatype:
-            self.teatype = teatype.id
+            self.teatype = teatype
 
 class Tea(db.Model):
     id = db.Column(db.Integer, primary_key = True)

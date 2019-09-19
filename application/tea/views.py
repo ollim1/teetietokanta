@@ -55,7 +55,7 @@ def modify_ingredient():
 def add_ingredient():
     if request.method == "POST":
         name = request.form.get("name")
-        teatype = request.form.get("teatype")
+        teatype = request.form.get("teatype_id")
         if teatype == -1:
             i = Ingredient(name)
         else:
