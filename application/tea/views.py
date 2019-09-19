@@ -1,5 +1,6 @@
 from application import app, db
 from flask_wtf import FlaskForm
+from flask_login import login_required, current_user, login_user
 from wtforms import StringField, validators
 from flask import redirect, render_template, request, url_for
 from application.tea.models import *
@@ -28,6 +29,7 @@ def teatypes_page():
     return render_template("teatypes.html", teatypes = TeaType.query.all())
 
 @app.route("/tea/add_teatype", methods=["GET", "POST"])
+@login_required
 def add_teatype():
     if request.method == "POST":
         name = request.form.get("name")
@@ -40,6 +42,7 @@ def add_teatype():
         return render_template("add_teatype.html", form = AddTeaTypeForm())
 
 @app.route("/tea/modify_ingredient", methods=["POST"])
+@login_required
 def modify_ingredient():
     ingredient_id = int(request.form.get("ingredient_id"))
     teatype_id = int(request.form.get("teatype_id"))
@@ -52,6 +55,7 @@ def modify_ingredient():
     return redirect(url_for("ingredients_page"))
 
 @app.route("/tea/add_ingredient", methods=["GET", "POST"])
+@login_required
 def add_ingredient():
     if request.method == "POST":
         name = request.form.get("name")
