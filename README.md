@@ -19,5 +19,12 @@ Toimintoja
 
 ### Dokumentaatio
 [Tietokantakuvaus](dokumentaatio/tietokantakaavio.png)
+
 [Tietokantakaavio](dokumentaatio/tietokantakaavio.png)
+
 [User storyt](dokumentaatio/tietokantakaavio.png)
+
+### Testitunnukset
+Käyttäjänimi: `hello`
+
+Salasana: `world`
