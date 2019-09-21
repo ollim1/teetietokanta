@@ -17,7 +17,6 @@ db = SQLAlchemy(app)
 from application import views
 
 from application.tea import models
-from application.tea import views
 
 from application.auth import models
 from application.auth import views
@@ -42,3 +41,6 @@ try:
     db.create_all()
 except:
     pass
+
+from application.tea import models_post
+from application.tea import views

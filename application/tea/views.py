@@ -1,32 +1,44 @@
 from application import app, db
 from flask_wtf import FlaskForm
 from flask_login import login_required, current_user, login_user
-from wtforms import StringField, validators
+from wtforms import StringField, SelectField, RadioField, TextAreaField, FloatField, BooleanField, validators
 from flask import redirect, render_template, request, url_for
 from application.tea.models import *
 
-class AddTeaTypeForm(FlaskForm):
+class TeaTypeForm(FlaskForm):
     name = StringField("Teetyyppi", [validators.Length(min=1)])
 
     class Meta:
         csrf = False
 
-class AddIngredientForm(FlaskForm):
+class IngredientForm(FlaskForm):
     name = StringField("Ainesosa", [validators.Length(min=1)])
 
     class Meta:
         csrf = False
 
+class ReviewForm(FlaskForm):
+    tea = SelectField("Tee", [validators.InputRequired()], choices=Tea.selection_list())
+    score = RadioField("Arvosana", [validators.InputRequired()], choices = [("★", 1), ("★★", 2), ("★★★", 3), ("★★★★", 4), ("★★★★★", 5)])
+    text = TextAreaField("Teksti")
+    temperature = FloatField("Lämpötila", [validators.InputRequired()])
+    brewtime = FloatField("Haudutuksen pituus (min)", [validators.NumberRange(min=0), validators.InputRequired()])
+    boiled = BooleanField("Keitetty", default="checked")
+
+@app.route("/tea/teas")
+def teas_page():
+    return render_template("teas.html", teas = list_teas())
+
 @app.route("/tea/ingredients")
 def ingredients_page():
-    return render_template("ingredients.html",
+    return render_template("tea/ingredients.html",
         ingredients = db.session.query(Ingredient, TeaType)
                                 .outerjoin(TeaType).all(),
         teatypes = TeaType.query.all())
 
 @app.route("/tea/teatypes")
 def teatypes_page():
-    return render_template("teatypes.html", teatypes = TeaType.query.all())
+    return render_template("tea/teatypes.html", teatypes = TeaType.query.all())
 
 @app.route("/tea/add_teatype", methods=["GET", "POST"])
 @login_required
@@ -39,7 +51,7 @@ def add_teatype():
             db.session.commit()
         return redirect(url_for("teatypes_page"))
     else:
-        return render_template("add_teatype.html", form = AddTeaTypeForm())
+        return render_template("tea/add_teatype.html", form = TeaTypeForm())
 
 @app.route("/tea/modify_ingredient", methods=["POST"])
 @login_required
@@ -68,4 +80,4 @@ def add_ingredient():
         db.session.commit()
         return redirect(url_for("ingredients_page"))
     else:
-        return render_template("add_ingredient.html", form = AddIngredientForm(), teatypes = TeaType.query.all())
+        return render_template("tea/add_ingredient.html", form = IngredientForm(), teatypes = TeaType.query.all())

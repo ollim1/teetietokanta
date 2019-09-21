@@ -8,59 +8,57 @@ teaingredient = Table("tea_ingredient",
         db.Column("ingredient", db.Integer, db.ForeignKey("ingredient.id"), primary_key=True)
 )
 
-class TeaType(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(64), nullable = False)
+class BrewData(db.Model):
+    __abstract__ = True
+    
+    temperature = db.Column(db.Float)
+    brewtime = db.Column(db.Integer)
+    boiled = db.Column(db.Boolean)
 
+class Named(db.Model):
+    __abstract__ = True
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(256), nullable = False)
+
+class TeaType(Named):
     ingredients = relationship("Ingredient")
     def __init__(self, name):
         self.name = name
 
-class Ingredient(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable = False)
+class Ingredient(Named):
     teatype = db.Column(db.Integer, db.ForeignKey('tea_type.id'))
 
-    teas = relationship("Tea", secondary = teaingredient, back_populates = "ingredients")
+    teas = db.relationship("Tea", secondary = teaingredient, back_populates = "ingredients")
     def __init__(self, name, teatype = None):
         self.name = name
-        if teatype:
-            self.teatype = teatype
+        self.teatype = teatype
 
-class Tea(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable = False)
-    temperature = db.Column(db.Float, nullable = False)
-    brewtime = db.Column(db.Integer, nullable = False)
-    boiled = db.Column(db.Boolean, nullable = False)
-
+class Tea(BrewData, Named):
     ingredients = db.relationship("Ingredient", secondary = teaingredient, back_populates = "teas")
+    reviews = db.relationship("Review")
     def __init__(self, name, temperature, brewtime, boiled):
         self.name = name
         self.temperature = temperature
         self.brewtime = brewtime
         self.boiled = boiled
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable = False)
-
+class User(Named):
+    reviews = db.relationship("Review")
     def __init__(self, name):
         self.name = name
 
-class Review(db.Model):
+class Review(BrewData):
     id = db.Column(db.Integer, primary_key = True)
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     tea = db.Column(db.Integer, db.ForeignKey('tea.id'))
+    score = db.Column(db.Integer)
     content = db.Column(db.Text)
-    temperature = db.Column(db.Float)
-    brewtime = db.Column(db.Integer)
-    boiled = db.Column(db.Boolean)
 
-    def __init__(self, user, tea, content, temperature, brewtime, boiled):
+    def __init__(self, user, tea, score, content, temperature, brewtime, boiled):
         self.user = user
-        if tea:
-            self.tea = tea.id
+        self.tea = tea
+        self.score = score
         self.content = content
         self.temperature = temperature
         self.brewtime = brewtime
