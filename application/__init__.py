@@ -16,13 +16,13 @@ db = SQLAlchemy(app)
 # application
 from application import views
 
-from application.tea import models
+from application.tea import models as tea_models
+from application.auth import models as auth_models
+db.create_all()
 
-from application.auth import models
 from application.auth import views
 
 # login
-from application.auth.models import User
 from os import urandom
 app.config["SECRET_KEY"] = urandom(32)
 
@@ -35,12 +35,7 @@ login_manager.login_message = "Kirjaudu sisään käyttääksesi tätä toiminto
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return auth_models.User.query.get(user_id)
 
-try:
-    db.create_all()
-except:
-    pass
-
-from application.tea import models_post
 from application.tea import views
+
