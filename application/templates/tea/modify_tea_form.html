@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Muokkaa teetä</h2>
+<div class="form">
+  <form action="{{url_for('modify_tea')}}" method="POST">
+    <table class="form-table">
+      <tr class="labelrow">
+        <td>{{form.name.label}}</td>
+        <td>{{form.temperature.label}}</td>
+        <td>{{form.brewtime.label}}</td>
+        <td>{{form.boiled.label}}</td>
+      </tr>
+      <tr class="contentrow">
+        </td>
+        <td>{{form.name}}</td>
+        <td>{{form.temperature}}</td>
+        <td>{{form.brewtime}}</td>
+        <td>{{form.boiled}}</td>
+      </tr>
+    </table>
+    <div>
+      <input type="hidden" name="ingredient_id" value="-1">
+      <input type="submit" value="Muokkaa teetä">
+    </div>
+  </form>
+</div>
+{% endblock %}

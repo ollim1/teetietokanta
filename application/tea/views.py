@@ -1,33 +1,52 @@
 from application import app, db
+from flask import abort
 from flask_wtf import FlaskForm
 from flask_login import login_required, current_user, login_user
-from wtforms import StringField, SelectField, RadioField, TextAreaField, FloatField, BooleanField, validators
 from flask import redirect, render_template, request, url_for
-from application.tea.models import *
-
-class TeaTypeForm(FlaskForm):
-    name = StringField("Teetyyppi", [validators.Length(min=1)])
-
-    class Meta:
-        csrf = False
-
-class IngredientForm(FlaskForm):
-    name = StringField("Ainesosa", [validators.Length(min=1)])
-
-    class Meta:
-        csrf = False
-
-class ReviewForm(FlaskForm):
-    tea = SelectField("Tee", [validators.InputRequired()], choices=Tea.selection_list())
-    score = RadioField("Arvosana", [validators.InputRequired()], choices = [("★", 1), ("★★", 2), ("★★★", 3), ("★★★★", 4), ("★★★★★", 5)])
-    text = TextAreaField("Teksti")
-    temperature = FloatField("Lämpötila", [validators.InputRequired()])
-    brewtime = FloatField("Haudutuksen pituus (min)", [validators.NumberRange(min=0), validators.InputRequired()])
-    boiled = BooleanField("Keitetty", default="checked")
+from application.tea.models import TeaType, Ingredient, Tea, User, Review
+from application.tea.forms import TeaTypeForm, IngredientForm, BrewDataForm, ReviewForm, TeaNameForm, TeaModificationForm
 
 @app.route("/tea/teas")
 def teas_page():
-    return render_template("teas.html", teas = list_teas())
+    return render_template("tea/teas.html", teas = Tea.list_teas())
+
+@app.route("/tea/add_tea", methods=["GET", "POST"])
+@login_required
+def add_tea():
+    if request.method == "GET":
+        return render_template("tea/add_tea.html", form = TeaNameForm())
+    if request.method == "POST":
+        name = request.form.get("name")
+        tea = Tea(name)
+        db.session.add(tea)
+        db.session.commit()
+        return redirect(url_for("modify_tea_form", id = tea.id))
+
+@app.route("/tea/modify_tea_form", methods=["GET"])
+@login_required
+def modify_tea_form():
+    id = request.args.get("id")
+    if id:
+        tea = db.session.query(Tea).get(id)
+        if not tea:
+            Flask.abort(400)
+        tea_info = tea.get_info()
+        return render_template("/tea/modify_tea_form.html", form = TeaModificationForm(data = {"name": tea.name, "temperature": tea.temperature, "brewtime": tea.brewtime, "boiled": tea.boiled}), tea_info = tea_info)
+    else:
+        Flask.abort(400)
+
+@app.route("/tea/modify_tea", methods=["POST"])
+@login_required
+def modify_tea():
+    id = request.form.get("id") # input type "hidden", fill in using form parameters
+    name = request.form.get("name")
+    temperature = request.form.get("temperature")
+    brewtime = request.form.get("brewtime")
+    boiled = request.form.get("boiled")
+    ingredient_id = request.form.get("ingredient_id")
+    # tea = db.session.query(Tea).get(id)
+    # TODO: add database logic including the adding of ingredients
+    return redirect(url_for("teas_page"))
 
 @app.route("/tea/ingredients")
 def ingredients_page():

@@ -14,10 +14,8 @@ else:
 db = SQLAlchemy(app)
 
 # application
-from application import views
 from application.tea import models
 from application.auth import models
-from application.auth import views
 
 # login
 from application.auth.models import User
@@ -40,4 +38,7 @@ try:
 except:
     pass
 
+# raw sql statements require the database to be formatted
+from application import views
 from application.tea import views
+from application.auth import views

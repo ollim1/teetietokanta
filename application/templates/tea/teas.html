@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2> Teet </h2>
+<div id="list">
+  <table>
+    <tr class="labelrow">
+      <td>Tee</td>
+      <td>Keskiarvo</td>
+    </tr>
+    {% for tea in teas %}
+    <tr>
+      <td>
+        <span class="tea teaitem"><a href="{{url_for('modify_tea_form', id=tea['id'])}}">{{tea["name"]}}</a></span>
+      </td>
+      <td>
+        <span class="score teaitem">{%if tea["score"] %}{{tea["score"]}}{%endif%}</span>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
+
