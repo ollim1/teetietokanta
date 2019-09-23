@@ -17,15 +17,15 @@ class IngredientForm(FlaskForm):
 
 class BrewDataForm(FlaskForm):
     __abstract__ = True
-    temperature = FloatField("Lämpötila", [validators.InputRequired()], default = 100)
-    brewtime = FloatField("Haudutuksen pituus (min)", [validators.NumberRange(min=0), validators.InputRequired()], default = 3)
+    temperature = FloatField("Lämpötila", [validators.InputRequired()])
+    brewtime = FloatField("Haudutuksen pituus (min)", [validators.NumberRange(min=0), validators.InputRequired()])
     boiled = BooleanField("Keitetty")
 
     class Meta:
         csrf = False
 
 class ReviewForm(BrewDataForm):
-    tea = SelectField("Tee", [validators.InputRequired()], choices=Tea.query.all())
+    tea = SelectField("Tee", [validators.InputRequired()], choices=Tea.selection_list())
     score = RadioField("Arvosana", [validators.InputRequired()], choices = [("★", 1), ("★★", 2), ("★★★", 3), ("★★★★", 4), ("★★★★★", 5)])
     text = TextAreaField("Teksti")
 
@@ -41,11 +41,17 @@ class TeaNameForm(FlaskForm):
     class Meta:
         csrf = False
 
-class TeaModificationForm(BrewDataForm, ):
+class TeaModificationForm(BrewDataForm):
     """
     Used for both filling out the initial information and modifying it later.
     """
     name = StringField("Nimi", [validators.Length(min=1)])
+
+    class Meta:
+        csrf = False
+
+class AddIngredientToTeaForm(FlaskForm):
+    ingredient = SelectField("Tee", [validators.InputRequired()], choices=Ingredient.selection_list())
 
     class Meta:
         csrf = False

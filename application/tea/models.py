@@ -45,6 +45,16 @@ class Ingredient(Named):
         else:
             return None
 
+    @staticmethod
+    def selection_list():
+        stmt = text("SELECT ingredient.id, ingredient.name FROM ingredient")
+        res = db.engine.execute(stmt)
+        response = []
+        response.append((-1, "Tyhjä"))
+        for row in res:
+            response.append((row["id"], row["name"]))
+        return response
+
 class Tea(BrewData, Named):
     ingredients = db.relationship("Ingredient", secondary = teaingredient, back_populates = "teas")
     reviews = db.relationship("Review")
@@ -68,7 +78,7 @@ class Tea(BrewData, Named):
     @staticmethod
     def list_teas():
         stmt = text("SELECT tea.id, tea.name, AVG(review.score) FROM tea"
-                + " LEFT JOIN review ON review.tea = tea.name")
+                + " LEFT JOIN review ON review.tea = tea.id")
         res = db.engine.execute(stmt)
         response = []
         for row in res:
@@ -77,9 +87,13 @@ class Tea(BrewData, Named):
 
     @staticmethod
     def selection_list():
+        stmt = text("SELECT tea.id, tea.name FROM tea")
+        res = db.engine.execute(stmt)
         response = []
-        for row in Tea.list_teas():
+        response.append((-1, "Tyhjä"))
+        for row in res:
             response.append((row["id"], row["name"]))
+        return response
 
 # TODO: merge with auth.User
 class User(Named):

@@ -4,6 +4,7 @@
 <h2>Muokkaa teetä</h2>
 <div class="form">
   <form action="{{url_for('modify_tea')}}" method="POST">
+    <input type="hidden" name="id" value="{{tea.id}}">
     <table class="form-table">
       <tr class="labelrow">
         <td>{{form.name.label}}</td>
@@ -20,8 +21,22 @@
       </tr>
     </table>
     <div>
-      <input type="hidden" name="ingredient_id" value="-1">
-      <input type="submit" value="Muokkaa teetä">
+      <input type="submit" value="Tallenna muokkaus">
+    </div>
+    <div id="ingredients">
+      <a href="{{url_for('add_ingredient_to_tea', id = tea.id)}}">Lisää ainesosia</a>
+      <h3>Ainesosat</h3>
+      <table id="ingredient_list">
+        <tr class="labelrow">
+          <td>Ainesosa</td>
+          <td>Teetyyppi</td>
+        </tr>
+        {%for ingredient in ingredients%}
+        <tr>
+          <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
+          <td><span class="ingredient teaitem">{%if ingredient.teatype%}{{ingredient.teatype}}{%endif%}</span></td>
+        </tr>
+        {%endfor%}
     </div>
   </form>
 </div>
