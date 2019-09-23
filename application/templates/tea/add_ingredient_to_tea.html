@@ -17,12 +17,10 @@
       <table id="ingredient_list">
         <tr class="labelrow">
           <td>Ainesosa</td>
-          <td>Teetyyppi</td>
         </tr>
         {%for ingredient in ingredients%}
         <tr>
           <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
-          <td><span class="ingredient teaitem">{%if ingredient.teatype%}{{ingredient.teatype}}{%endif%}</span></td>
         </tr>
         {%endfor%}
     </div>

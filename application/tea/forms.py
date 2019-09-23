@@ -25,9 +25,9 @@ class BrewDataForm(FlaskForm):
         csrf = False
 
 class ReviewForm(BrewDataForm):
-    tea = SelectField("Tee", [validators.InputRequired()], choices=Tea.selection_list())
     score = RadioField("Arvosana", [validators.InputRequired()], choices = [("★", 1), ("★★", 2), ("★★★", 3), ("★★★★", 4), ("★★★★★", 5)])
     text = TextAreaField("Teksti")
+    add_brewinfo = BooleanField("Lisää haudutustiedot", default = "unchecked")
 
     class Meta:
         csrf = False
@@ -46,6 +46,7 @@ class TeaModificationForm(BrewDataForm):
     Used for both filling out the initial information and modifying it later.
     """
     name = StringField("Nimi", [validators.Length(min=1)])
+    type = SelectField("Teetyyppi", choices=TeaType.selection_list())
 
     class Meta:
         csrf = False

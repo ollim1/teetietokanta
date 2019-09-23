@@ -6,27 +6,11 @@
   <table>
     <tr class="labelrow">
       <td>Ainesosa</td>
-      <td>Teetyyppi</td>
     </tr>
-    {% for item in ingredients %}
+    {% for ingredient in ingredients %}
     <tr>
       <td>
-        <span class="ingredient teaitem">{{item.Ingredient.name}}</span>
-      </td>
-      <td>
-        <span class="teatype teaitem">{%if item.TeaType %}{{item.TeaType.name}}{%endif%}</span>
-      </td>
-      <td>
-        <form action="modify_ingredient", method="POST">
-          <input type="hidden" name="ingredient_id" value="{{item.Ingredient.id}}"/>
-          <select name="teatype_id">
-            <option value="-1">Tyhjä</option>
-            {%for teatype in teatypes%}
-            <option value="{{teatype.id}}">{{teatype.name}}</option>
-            {%endfor%}
-          </select>
-          <input type="submit" value="Vaihda teetyyppi">
-        </form>
+        <span class="ingredient teaitem">{{ingredient.name}}</span>
       </td>
     </tr>
     {% endfor %}

@@ -10,14 +10,20 @@
         <td>{{form.name.label}}</td>
         <td>{{form.temperature.label}}</td>
         <td>{{form.brewtime.label}}</td>
-        <td>{{form.boiled.label}}</td>
       </tr>
       <tr class="contentrow">
         </td>
         <td>{{form.name}}</td>
         <td>{{form.temperature}}</td>
         <td>{{form.brewtime}}</td>
+      </tr>
+      <tr class="labelrow">
+        <td>{{form.boiled.label}}</td>
+        <td>{{form.type.label}}</td>
+      </tr>
+      <tr class="contentrow">
         <td>{{form.boiled}}</td>
+        <td>{{form.type}}</td>
       </tr>
     </table>
     <div>
@@ -29,12 +35,10 @@
       <table id="ingredient_list">
         <tr class="labelrow">
           <td>Ainesosa</td>
-          <td>Teetyyppi</td>
         </tr>
         {%for ingredient in ingredients%}
         <tr>
           <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
-          <td><span class="ingredient teaitem">{%if ingredient.teatype%}{{ingredient.teatype}}{%endif%}</span></td>
         </tr>
         {%endfor%}
     </div>

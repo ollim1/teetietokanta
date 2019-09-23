@@ -7,20 +7,11 @@
     <table class="form-table">
       <tr class="labelrow">
         <td>{{form.name.label}}</td>
-        <td>Valitse teetyyppi</td>
       </tr>
       <tr class="contentrow">
         </td>
         <td>
           {{form.name}}
-        </td>
-        <td>
-          <select name="teatype_id">
-            <option value="-1">Tyhjä</option>
-            {%for teatype in teatypes%}
-            <option value="{{teatype.id}}">{{teatype.name}}</option>
-            {%endfor%}
-          </select>
         </td>
       </tr>
     </table>

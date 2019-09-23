@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>{{tea.name}}</h2>
+<a href="{{url_for('modify_tea_form', id=tea.id)}}">Muokkaa<a>
+<div class="form">
+  <input type="hidden" name="id" value="{{tea.id}}">
+  <table class="listing_table">
+    <tr>
+      <td class="labelcolumn">Tyyppi</td>
+      <td class="contentcolumn">{%if tea.type%}{{tea.type}}{%endif%}</td>
+    </tr>
+    <tr>
+      <td class="labelcolumn">Lämpötila</td>
+      <td class="contentcolumn">{%if tea.type%}{{tea.temperature}}{%endif%}</td>
+    </tr>
+    <tr>
+      </td>
+      <td class="labelcolumn">Haudutusaika</td>
+      <td class="contentcolumn">{%if tea.type%}{{tea.brewtime}}{%endif%}</td>
+    </tr>
+    <tr>
+      <td class="labelcolumn">Keitetty</td>
+      <td class="contentcolumn">{%if tea.type%}{{tea.boiled}}{%endif%}</td>
+    </tr>
+  </table>
+  <div id="ingredients">
+    <h3>Ainesosat</h3>
+    <ul class="item_list">
+      {%for ingredient in ingredients%}
+      <li>
+        <span class="ingredient teaitem">{{ingredient.name}}</span>
+      </li>
+      {%endfor%}
+    </ul>
+  </div>
+</div>
+{% endblock %}
