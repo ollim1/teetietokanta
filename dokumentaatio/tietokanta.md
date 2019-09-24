@@ -41,7 +41,7 @@
 
 ### tietokantakaavio
 ```
-[Käyttäjä|(pk) id:integer;nimi:string]
+[Käyttäjä|(pk) id:integer;nimi:string;sisäänkirjautumistietoja...]
 [Teelaji|(pk) id:integer;nimi:string;(fk) tyyppi:integer;onkoBlend:boolean;haudutusaika:integer;lämpötila:integer;keitetäänkö:boolean]
 [Teetyyppi|(pk) id:integer;nimi:string]
 [Ainesosa|(pk) id:integer;nimi:string]
@@ -58,8 +58,8 @@
 - Tallennetaan tietokanta sovelluksessa englanniksi.
 
 ```
-[User|(pk) id:integer;name:string]
-[Tea|(pk) id:integer;name:string;(fk) type:integer;brewingtime:integer;temperature:integer;boiled:boolean]
+[User|(pk) id:integer;name:string;login information...]
+[Tea|(pk) id:integer;name:string;(fk) type:integer;brewtime:integer;temperature:integer;boiled:boolean]
 [TeaType|(pk) id:integer;name:string]
 [Ingredient|(pk) id:integer;name:string]
 [Review|(pk) id:integer;(fk) tea:integer;score:integer;text:string;brewtime:integer;temperature:integer;boiled:boolean]
@@ -68,7 +68,7 @@
 [User]1--*[Review]
 [Review]*--1[Tea]
 [TeaIngredient]*--1[Tea]
-[Ingredient]*--1[TeaType]
+[Tea]*--1[TeaType]
 [TeaIngredient]*--1[Ingredient]
 ```
 
