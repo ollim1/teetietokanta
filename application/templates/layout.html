@@ -2,33 +2,64 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/template.css')}}">
+    <!--
+      <link rel="stylesheet" href="{{url_for('static', filename='css/template.css')}}">
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous">
     <title>Teetietokanta</title>
   </head>
-  <p>
-  {%if current_user and current_user.is_authenticated%}
-  Käyttäjä: {{current_user.name}} <a href="{{url_for('auth_logout')}}">Kirjaudu ulos</a>
-  {%else%}
-  <a href="{{url_for('auth_add_user')}}">Luo uusi käyttäjä</a>
-  <a href="{{url_for('auth_login')}}">Kirjaudu sisään</a>
-  {%endif%}
-  </p>
 
   <body>
-    <h1> Teetietokanta </h1>
-    <ul>
-      <li> <a href="{{url_for('teas_page')}}">Teet</a> </li>
-      <li> <a href="{{url_for('add_tea')}}">Lisää tee</a> </li>
-      <li> <a href="{{url_for('ingredients_page')}}">Ainesosat</a> </li>
-      <li> <a href="{{url_for('add_ingredient')}}">Lisää ainesosa</a> </li>
-      <li> <a href="{{url_for('teatypes_page')}}">Teetyypit</a> </li>
-      <li> <a href="{{url_for('add_teatype')}}">Lisää teetyyppi</a> </li>
-    </ul>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <a class="navbar-brand" href="#">Teetietokanta</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="teas" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Teet</a>
+            <div class="dropdown-menu" aria-labelledby="teas">
+              <a class="dropdown-item" href="{{url_for('teas_page')}}">Teet</a>
+              <a class="dropdown-item" href="{{url_for('add_tea')}}">Lisää tee</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="teatypes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Teetyypit</a>
+            <div class="dropdown-menu" aria-labelledby="teatypes">
+              <a class="dropdown-item" href="{{url_for('teatypes_page')}}">Teetyypit</a>
+              <a class="dropdown-item" href="{{url_for('add_teatype')}}">Lisää teetyyppi</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="ingredients" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ainesosat</a>
+            <div class="dropdown-menu" aria-labelledby="ingredients">
+              <a class="dropdown-item" href="{{url_for('ingredients_page')}}">Ainesosat</a>
+              <a class="dropdown-item" href="{{url_for('add_ingredient')}}">Lisää ainesosa</a>
+            </div>
+          </li>
+          <li class="nav-item">
+          </li>
+        </ul>
+        <div id="login-information form-inline mt-2 mt-md-0">
+          {%if current_user and current_user.is_authenticated%}
+          <span class="navbar-text">Käyttäjä: {{current_user.name}}</span>
+          <a class="navbar-text form-inline" href="{{url_for('auth_logout')}}">Kirjaudu ulos</a>
+          {%else%}
+          <a class="form-inline" href="{{url_for('auth_add_user')}}">Luo uusi käyttäjä</a>
+          <a class="form-inline" href="{{url_for('auth_login')}}">Kirjaudu sisään</a>
+          {%endif%}
+        </div>
+    </nav>
 
     {% block body %}
     <p>
     Content.
     </p>
     {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
