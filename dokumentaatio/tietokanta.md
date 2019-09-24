@@ -44,6 +44,7 @@
 [Käyttäjä|(pk) id:integer;nimi:string]
 [Teelaji|(pk) id:integer;nimi:string;(fk) tyyppi:integer;onkoBlend:boolean;haudutusaika:integer;lämpötila:integer;keitetäänkö:boolean]
 [Teetyyppi|(pk) id:integer;nimi:string]
+[Ainesosa|(pk) id:integer;nimi:string]
 [Arvostelu|(pk) id:integer;(fk) tee:integer;arvosana:integer;teksti:string;haudutusaika:integer;lämpötila:integer;keitetty:boolean]
 [TeeAinesosa|(fk) tee:integer; (fk) ainesosa:integer]
 
@@ -60,6 +61,7 @@
 [User|(pk) id:integer;name:string]
 [Tea|(pk) id:integer;name:string;(fk) type:integer;brewingtime:integer;temperature:integer;boiled:boolean]
 [TeaType|(pk) id:integer;name:string]
+[Ingredient|(pk) id:integer;name:string]
 [Review|(pk) id:integer;(fk) tea:integer;score:integer;text:string;brewtime:integer;temperature:integer;boiled:boolean]
 [TeaIngredient|(fk) tea:integer; (fk) ingredient:integer]
 

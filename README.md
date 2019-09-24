@@ -18,11 +18,11 @@ Toimintoja
   - jos tee on blend, niin tyyppi on kaikkien blendissä käytettyjen teetyyppien yhdistelmä
 
 ### Dokumentaatio
-[Tietokantakuvaus](dokumentaatio/tietokantakaavio.png)
+[Tietokantakuvaus](dokumentaatio/tietokanta.md)
 
 [Tietokantakaavio](dokumentaatio/tietokantakaavio.png)
 
-[User storyt](dokumentaatio/tietokantakaavio.png)
+[User storyt](dokumentaatio/userstory.md)
 
 ### Testitunnukset
 Käyttäjänimi: `hello`
