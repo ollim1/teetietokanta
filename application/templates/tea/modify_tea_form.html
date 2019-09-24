@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Muokkaa teetä</h2>
+<div class="form">
+  <form action="{{url_for('modify_tea')}}" method="POST">
+    <input type="hidden" name="id" value="{{tea.id}}">
+    <table class="form-table">
+      <tr class="labelrow">
+        <td>{{form.name.label}}</td>
+        <td>{{form.temperature.label}}</td>
+        <td>{{form.brewtime.label}}</td>
+      </tr>
+      <tr class="contentrow">
+        </td>
+        <td>{{form.name}}</td>
+        <td>{{form.temperature}}</td>
+        <td>{{form.brewtime}}</td>
+      </tr>
+      <tr class="labelrow">
+        <td>{{form.boiled.label}}</td>
+        <td>{{form.type.label}}</td>
+      </tr>
+      <tr class="contentrow">
+        <td>{{form.boiled}}</td>
+        <td>{{form.type}}</td>
+      </tr>
+    </table>
+    <div>
+      <input type="submit" value="Tallenna muokkaus">
+    </div>
+    <div id="ingredients">
+      <a href="{{url_for('add_ingredient_to_tea', id = tea.id)}}">Lisää ainesosia</a>
+      <h3>Ainesosat</h3>
+      <table id="ingredient_list">
+        <tr class="labelrow">
+          <td>Ainesosa</td>
+        </tr>
+        {%for ingredient in ingredients%}
+        <tr>
+          <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
+        </tr>
+        {%endfor%}
+    </div>
+  </form>
+</div>
+{% endblock %}

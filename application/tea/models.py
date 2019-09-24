@@ -1,5 +1,7 @@
 from application import db
+from application.auth.models import User
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Table, PrimaryKeyConstraint
+from sqlalchemy.sql import text
 from sqlalchemy.orm import relationship
 
 teaingredient = Table("tea_ingredient",
@@ -8,59 +10,108 @@ teaingredient = Table("tea_ingredient",
         db.Column("ingredient", db.Integer, db.ForeignKey("ingredient.id"), primary_key=True)
 )
 
-class TeaType(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(64), nullable = False)
+class BrewData(db.Model):
+    __abstract__ = True
 
-    ingredients = relationship("Ingredient")
+    temperature = db.Column(db.Float)
+    brewtime = db.Column(db.Float)
+    boiled = db.Column(db.Boolean)
+
+class Named(db.Model):
+    __abstract__ = True
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(256), nullable = False)
+
+class TeaType(Named):
+    # TODO: type-specific default brewing information
+    teas = relationship("Tea")
     def __init__(self, name):
         self.name = name
 
-class Ingredient(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable = False)
-    teatype = db.Column(db.Integer, db.ForeignKey('tea_type.id'))
+    @staticmethod
+    def selection_list():
+        stmt = text("SELECT id, name FROM tea_type")
+        res = db.engine.execute(stmt)
+        response = []
+        response.append((-1, "Tyhjä"))
+        for row in res:
+            response.append((row["id"], row["name"]))
+        return response
 
-    teas = relationship("Tea", secondary = teaingredient, back_populates = "ingredients")
-    def __init__(self, name, teatype = None):
+class Ingredient(Named):
+    teas = db.relationship("Tea", secondary = teaingredient, back_populates = "ingredients")
+    def __init__(self, name):
         self.name = name
-        if teatype:
-            self.teatype = teatype
 
-class Tea(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable = False)
-    temperature = db.Column(db.Float, nullable = False)
-    brewtime = db.Column(db.Integer, nullable = False)
-    boiled = db.Column(db.Boolean, nullable = False)
+    @staticmethod
+    def selection_list():
+        stmt = text("SELECT id, name FROM ingredient")
+        res = db.engine.execute(stmt)
+        response = []
+        response.append((-1, "Tyhjä"))
+        for row in res:
+            response.append((row["id"], row["name"]))
+        return response
 
+class Tea(BrewData, Named):
     ingredients = db.relationship("Ingredient", secondary = teaingredient, back_populates = "teas")
-    def __init__(self, name, temperature, brewtime, boiled):
+    reviews = db.relationship("Review")
+    type = db.Column(db.Integer, db.ForeignKey('tea_type.id'))
+
+    def __init__(self, name, temperature = 100, brewtime = 3, boiled = True):
         self.name = name
         self.temperature = temperature
         self.brewtime = brewtime
         self.boiled = boiled
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable = False)
+    def get_info(self):
+        stmt = text("SELECT ingredient.id, ingredient.name FROM tea_ingredient"
+                + " JOIN ingredient ON ingredient.id = tea_ingredient.ingredient"
+                + " WHERE tea_ingredient.tea = :tea").params(tea=self.id)
+        res = db.engine.execute(stmt)
+        ingredient_list = []
+        for row in res:
+            ingredient_list.append({"id":row[0], "name":row[1]})
+        type = db.session.query(TeaType).get(self.type)
+        if type:
+            type = type.name
+        return {"tea":self, "type":type, "ingredients":ingredient_list}
 
-    def __init__(self, name):
-        self.name = name
+    @staticmethod
+    def list_teas():
+        stmt = text("SELECT tea.id, tea.name, tea_type.name, COUNT(tea_ingredient.ingredient), AVG(review.score) FROM tea"
+                + " LEFT JOIN tea_type ON tea_type.id = tea.type"
+                + " LEFT JOIN tea_ingredient ON tea_ingredient.tea = tea.id"
+                + " LEFT JOIN review ON review.tea = tea.id"
+                + " GROUP BY tea_ingredient.ingredient")
+        res = db.engine.execute(stmt)
+        response = []
+        for row in res:
+            response.append({"id":row[0], "name":row[1], "type":row[2], "ingredient_count":row[3], "score":row[4]})
+        return response
 
-class Review(db.Model):
+    @staticmethod
+    def selection_list():
+        stmt = text("SELECT tea.id, tea.name FROM tea")
+        res = db.engine.execute(stmt)
+        response = []
+        response.append((-1, "Tyhjä"))
+        for row in res:
+            response.append((row["id"], row["name"]))
+        return response
+
+class Review(BrewData):
     id = db.Column(db.Integer, primary_key = True)
-    user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.Column(db.Integer, db.ForeignKey('account.id'))
     tea = db.Column(db.Integer, db.ForeignKey('tea.id'))
+    score = db.Column(db.Integer)
     content = db.Column(db.Text)
-    temperature = db.Column(db.Float)
-    brewtime = db.Column(db.Integer)
-    boiled = db.Column(db.Boolean)
 
-    def __init__(self, user, tea, content, temperature, brewtime, boiled):
+    def __init__(self, user, tea, score, content, temperature = None, brewtime = None, boiled = None):
         self.user = user
-        if tea:
-            self.tea = tea.id
+        self.tea = tea
+        self.score = score
         self.content = content
         self.temperature = temperature
         self.brewtime = brewtime

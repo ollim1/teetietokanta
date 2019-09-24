@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Lisää ainesosa teehen {{tea.name}}</h2>
+<div class="form">
+  <form action="{{url_for('add_ingredient_to_tea', id = tea.id)}}" method="POST">
+    <input type="hidden" name="id" value="{{tea.id}}">
+    <div>
+      {{form.ingredient}}
+    </div>
+    <div>
+      <input type="submit" value="Lisää ainesosa">
+    </div>
+  </form>
+    <div id="ingredients">
+      <h3>Ainesosat</h3>
+      <table id="ingredient_list">
+        <tr class="labelrow">
+          <td>Ainesosa</td>
+        </tr>
+        {%for ingredient in ingredients%}
+        <tr>
+          <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
+        </tr>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}
+

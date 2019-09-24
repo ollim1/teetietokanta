@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2> Teet </h2>
+<div id="list">
+  <table>
+    <tr class="labelrow">
+      <td>Tee</td>
+      <td>Tyyppi</td>
+      <td>Keskiarvo</td>
+      <td>Ainesosia</td>
+    </tr>
+    {% for tea in teas %}
+    <tr>
+      <td>
+        <span class="tea teaitem"><a href="{{url_for('view_tea', id=tea['id'])}}">{{tea["name"]}}</a></span>
+      </td>
+      <td>
+        <span class="teatype teaitem">{%if tea["type"] %}{{tea["type"]}}{%endif%}</span>
+      </td>
+      <td>
+        <span class="number teaitem">{%if tea["score"] %}{{tea["score"]}}{%endif%}</span>
+      </td>
+      <td>
+        <span class="number teaitem">{%if tea["ingredient_count"] %}{{tea["ingredient_count"]}}{%endif%}</span>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
+

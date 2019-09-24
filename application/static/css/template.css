@@ -1,4 +1,8 @@
-* { font-family: sans-serif, "Helvetica", "Arial"; }
+* { color: #111; font-family: sans-serif, "Helvetica", "Arial";}
 p { font-size: 10pt !important; }
+a { color: #555; font-weight: bold; text-decoration: none; }
 .labelrow td { font-weight: bold; text-align: center; }
+.labelcolumn { font-weight: bold; text-align: right; }
+.item_list { list-style: none; }
 .form-table select, .form-table input { width: 15em; }
+

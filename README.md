@@ -15,16 +15,13 @@ Toimintoja
   - pohjimmiltaan teet ovat teelehtien ja muiden ainesosien yhdistelmiä
   - erilaisten teelehtien ja muiden ainesosien yhdistelmiä
   - teelajit voivat olla blendejä
-  - jos tee on blend, niin tyyppi on kaikkien blendissä käytettyjen teetyyppien yhdistelmä
 
 ### Dokumentaatio
-[Tietokantakuvaus](dokumentaatio/tietokantakaavio.png)
+[Tietokantakuvaus](dokumentaatio/tietokanta.md)
 
 [Tietokantakaavio](dokumentaatio/tietokantakaavio.png)
 
-[User storyt](dokumentaatio/tietokantakaavio.png)
+[User storyt](dokumentaatio/userstory.md)
 
-### Testitunnukset
-Käyttäjänimi: `hello`
-
-Salasana: `world`
+### Käyttäjän luominen
+- Käyttäjätunnukset voidaan luoda sovelluksen käyttöliittymässä linkistä "Luo uusi käyttäjä".

@@ -13,6 +13,7 @@ class User(db.Model):
     username = db.Column(db.String(144), nullable=False)
     password = db.Column(db.String(144), nullable=False)
 
+    reviews = db.relationship("Review")
     def __init__(self, name, username, password):
         self.name = name
         self.username = username

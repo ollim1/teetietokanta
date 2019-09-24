@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2> Ainesosat </h2>
+<div id="list">
+  <table>
+    <tr class="labelrow">
+      <td>Ainesosa</td>
+    </tr>
+    {% for ingredient in ingredients %}
+    <tr>
+      <td>
+        <span class="ingredient teaitem">{{ingredient.name}}</span>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
