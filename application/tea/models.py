@@ -80,15 +80,13 @@ class Tea(BrewData, Named):
 
     @staticmethod
     def list_teas():
-        stmt = text("SELECT tea.id, tea.name, tea_type.name, COUNT(tea_ingredient.ingredient), AVG(review.score) FROM tea"
+        stmt = text("SELECT tea.id, tea.name, tea_type.name, AVG(review.score) FROM tea"
                 + " LEFT JOIN tea_type ON tea_type.id = tea.type"
-                + " LEFT JOIN tea_ingredient ON tea_ingredient.tea = tea.id"
-                + " LEFT JOIN review ON review.tea = tea.id"
-                + " GROUP BY tea_ingredient.ingredient")
+                + " LEFT JOIN review ON review.tea = tea.id")
         res = db.engine.execute(stmt)
         response = []
         for row in res:
-            response.append({"id":row[0], "name":row[1], "type":row[2], "ingredient_count":row[3], "score":row[4]})
+            response.append({"id":row[0], "name":row[1], "type":row[2], "score":row[3]})
         return response
 
     @staticmethod
