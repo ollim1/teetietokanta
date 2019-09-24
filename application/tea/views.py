@@ -44,7 +44,8 @@ def view_tea():
         if not tea:
             print("could not find tea: id " + str(id))
             abort(404)
-        return render_template("/tea/view_tea.html", tea = tea, ingredients = tea.get_info()["ingredients"])
+        tea_info = tea.get_info()
+        return render_template("/tea/view_tea.html", tea = tea, teatype = tea_info["type"], ingredients = tea_info["ingredients"])
     else:
         abort(404)
 

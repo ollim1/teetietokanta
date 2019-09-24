@@ -24,6 +24,7 @@ class Named(db.Model):
     name = db.Column(db.String(256), nullable = False)
 
 class TeaType(Named):
+    # TODO: type-specific default brewing information
     teas = relationship("Tea")
     def __init__(self, name):
         self.name = name
@@ -72,14 +73,18 @@ class Tea(BrewData, Named):
         ingredient_list = []
         for row in res:
             ingredient_list.append({"id":row[0], "name":row[1]})
-        return {"tea":self, "ingredients":ingredient_list}
+        type = db.session.query(TeaType).get(self.type)
+        if type:
+            type = type.name
+        return {"tea":self, "type":type, "ingredients":ingredient_list}
 
     @staticmethod
     def list_teas():
         stmt = text("SELECT tea.id, tea.name, tea_type.name, COUNT(tea_ingredient.ingredient), AVG(review.score) FROM tea"
                 + " LEFT JOIN tea_type ON tea_type.id = tea.type"
                 + " LEFT JOIN tea_ingredient ON tea_ingredient.tea = tea.id"
-                + " LEFT JOIN review ON review.tea = tea.id")
+                + " LEFT JOIN review ON review.tea = tea.id"
+                + " GROUP BY tea_ingredient.ingredient")
         res = db.engine.execute(stmt)
         response = []
         for row in res:
