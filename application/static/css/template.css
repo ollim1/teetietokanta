@@ -38,3 +38,6 @@ input[type="submit"] {
 .score {
   width: 1ex;
 }
+.red {
+  background-color: #D22
+}

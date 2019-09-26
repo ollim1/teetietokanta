@@ -31,6 +31,10 @@
       </tr>
     </tbody>
   </table>
+  <form action="{{url_for('delete_tea')}}" method="POST">
+    <input type="hidden" name="id" value="{{tea.id}}"/>
+    <input type="submit" class="btn btn-primary form-control" value="Poista"/>
+  </form>
   <div class="pane" id="ingredients">
     <table class="table">
       <thead>

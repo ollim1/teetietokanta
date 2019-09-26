@@ -110,6 +110,20 @@ def modify_tea():
     db.session.commit()
     return redirect(url_for("modify_tea_form", id = id))
 
+@app.route("/tea/delete_tea", methods=["POST"])
+@login_required
+def delete_tea():
+    id = request.form.get("id")
+    tea = db.session.query(Tea).get(id)
+    if not tea:
+        return abort(404)
+    ingredients = tea.ingredients
+    for ingredient in ingredients:
+        ingredient.teas.remove(tea)
+    db.session.delete(tea)
+    db.session.commit()
+    return redirect(url_for("teas_page"))
+
 @app.route("/tea/add_ingredient_to_tea", methods=["GET", "POST"])
 @login_required
 def add_ingredient_to_tea():
