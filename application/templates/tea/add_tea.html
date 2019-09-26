@@ -2,19 +2,10 @@
 
 {% block body %}
 <h2>Lisää tee</h2>
-<div class="form">
-  <form action="{{url_for('add_tea')}}" method="POST">
-    <table class="form-table">
-      <tr class="labelrow">
-        <td>{{form.name.label}}</td>
-      </tr>
-      <tr class="contentrow">
-        <td>{{form.name}}</td>
-      </tr>
-    </table>
-    <div>
-      <input type="submit" value="Muokkaa teetä">
-    </div>
+<div class="pane form">
+  <form class="form-inline" action="{{url_for('add_tea')}}" method="POST">
+        {{form.name(class_="form-control", placeholder="Teen nimi")}}
+          <input type="submit" class="btn btn-primary form-control" value="Lisää ja muokkaa">
   </form>
 </div>
 {% endblock %}

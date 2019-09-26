@@ -1,27 +1,32 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h2> Teet </h2>
-<div id="list">
-  <table>
-    <tr class="labelrow">
-      <td>Tee</td>
-      <td>Tyyppi</td>
-      <td>Keskiarvo</td>
-    </tr>
-    {% for tea in teas %}
-    <tr>
-      <td>
-        <span class="tea teaitem"><a href="{{url_for('view_tea', id=tea['id'])}}">{{tea["name"]}}</a></span>
-      </td>
-      <td>
-        <span class="teatype teaitem">{%if tea["type"] %}{{tea["type"]}}{%endif%}</span>
-      </td>
-      <td>
-        <span class="number teaitem">{%if tea["score"] %}{{tea["score"]}}{%endif%}</span>
-      </td>
-    </tr>
-    {% endfor %}
+<div class="page-header">
+  <h2> Teet </h2>
+  <a class="btn btn-primary" href="{{url_for('add_tea')}}">Lisää uusi</a>
+</div>
+<div class="pane" id="list">
+  <table class="table">
+    <thead>
+      <th scope="col">Tee</th>
+      <th scope="col">Tyyppi</th>
+      <th scope="col">Keskiarvo</th>
+    </thead>
+    <tbody>
+      {% for tea in teas %}
+      <tr>
+        <td>
+          <span class="tea teaitem"><a href="{{url_for('view_tea', id=tea['id'])}}">{{tea["name"]}}</a></span>
+        </td>
+        <td>
+          <span class="teatype teaitem">{%if tea["type"] %}{{tea["type"]}}{%endif%}</span>
+        </td>
+        <td>
+          <span class="number teaitem">{%if tea["score"] %}{{tea["score"]}}{%endif%}</span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 </div>
 {% endblock %}

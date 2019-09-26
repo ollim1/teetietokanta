@@ -11,6 +11,7 @@ teaingredient = Table("tea_ingredient",
 )
 
 class BrewData(db.Model):
+    # TODO: normalize
     __abstract__ = True
 
     temperature = db.Column(db.Float)
@@ -73,16 +74,20 @@ class Tea(BrewData, Named):
         ingredient_list = []
         for row in res:
             ingredient_list.append({"id":row[0], "name":row[1]})
-        type = db.session.query(TeaType).get(self.type)
-        if type:
-            type = type.name
+        type = None
+        if self.type:
+            type = db.session.query(TeaType).get(self.type)
+            if type:
+                type = type.name
         return {"tea":self, "type":type, "ingredients":ingredient_list}
 
     @staticmethod
     def list_teas():
-        stmt = text("SELECT tea.id, tea.name, tea_type.name, AVG(review.score) FROM tea"
+        stmt = text("SELECT tea.id, tea.name, tea_type.name, AVG(review.score) as average FROM tea"
                 + " LEFT JOIN tea_type ON tea_type.id = tea.type"
-                + " LEFT JOIN review ON review.tea = tea.id")
+                + " LEFT JOIN review ON review.tea = tea.id"
+                + " GROUP BY tea.id"
+                + " ORDER BY average DESC")
         res = db.engine.execute(stmt)
         response = []
         for row in res:

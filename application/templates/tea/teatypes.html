@@ -1,19 +1,24 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h2> Teetyypit </h2>
-<div id="list">
-  <table>
-    <tr class="labelrow">
-      <td>Teetyyppi</td>
-    </tr>
-    {% for teatype in teatypes %}
-    <tr>
-      <td>
-        <span class="ingredient teaitem">{{teatype.name}}</span>
-      </td>
-    </tr>
-    {% endfor %}
+<div class="page-header">
+  <h2> Teetyypit </h2>
+  <a class="btn btn-primary" href="{{url_for('add_teatype')}}">Lisää uusi</a>
+</div>
+<div clas="pane" id="list">
+  <table class="table">
+    <thead>
+      <th scope="col">Teetyyppi</th>
+    </thead>
+    <tbody>
+      {% for teatype in teatypes %}
+      <tr>
+        <td>
+          <span class="ingredient teaitem">{{teatype.name}}</span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 </div>
 {% endblock %}

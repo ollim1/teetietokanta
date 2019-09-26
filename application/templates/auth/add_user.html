@@ -4,32 +4,20 @@
 <h2>Luo käyttäjä</h2>
 <div class="form">
   <form action="{{url_for('auth_add_user')}}" method="POST">
-    <table class="form-table">
-      <tr class="labelrow">
-        <td>
-          {{form.name.label}}
-        </td>
-        <td>
-          {{form.username.label}}
-        </td>
-        <td>
-          {{form.password.label}}
-        </td>
-      </tr>
-      <tr class="contentrow">
-        <td>
-          {{form.name}}
-        </td>
-        <td>
-          {{form.username}}
-        </td>
-        <td>
-          {{form.password}}
-        </td>
-      </tr>
+    <div class="form-group mb-2">
+      {{form.name(class_="form-control", placeholder=form.name.label.text)}}
+    </div>
+    <div class="form-group mb-2">
+      {{form.username(class_="form-control", placeholder=form.username.label.text)}}
+    </div>
+    <div class="form-group mb-2">
+      {{form.password(class_="form-control", placeholder=form.password.label.text)}}
+    </div>
+    </td>
+    </tr>
     </table>
     <div>
-      <input type="submit" value="Luo uusi käyttäjä">
+      <input type="submit" class="btn btn-primary form-control" value="Luo uusi käyttäjä">
     </div>
   </form>
 </div>

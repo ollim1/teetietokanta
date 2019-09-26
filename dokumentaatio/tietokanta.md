@@ -12,6 +12,7 @@
 - Teelaji
   - tyyppi fk-> teetyyppi
   - nimi
+  - kuvaus
   - alustava haudutusaika
   - alustava haudutuslämpötila
   - keitetäänkö vesi
@@ -42,7 +43,7 @@
 ### tietokantakaavio
 ```
 [Käyttäjä|(pk) id:integer;nimi:string;sisäänkirjautumistietoja...]
-[Teelaji|(pk) id:integer;nimi:string;(fk) tyyppi:integer;onkoBlend:boolean;haudutusaika:integer;lämpötila:integer;keitetäänkö:boolean]
+[Teelaji|(pk) id:integer;nimi:string;kuvaus:string;(fk) tyyppi:integer;onkoBlend:boolean;haudutusaika:integer;lämpötila:integer;keitetäänkö:boolean]
 [Teetyyppi|(pk) id:integer;nimi:string]
 [Ainesosa|(pk) id:integer;nimi:string]
 [Arvostelu|(pk) id:integer;(fk) tee:integer;arvosana:integer;teksti:string;haudutusaika:integer;lämpötila:integer;keitetty:boolean]
@@ -59,7 +60,7 @@
 
 ```
 [User|(pk) id:integer;name:string;login information...]
-[Tea|(pk) id:integer;name:string;(fk) type:integer;brewtime:integer;temperature:integer;boiled:boolean]
+[Tea|(pk) id:integer;name:string;description:string;(fk) type:integer;brewtime:integer;temperature:integer;boiled:boolean]
 [TeaType|(pk) id:integer;name:string]
 [Ingredient|(pk) id:integer;name:string]
 [Review|(pk) id:integer;(fk) tea:integer;score:integer;text:string;brewtime:integer;temperature:integer;boiled:boolean]

@@ -1,14 +1,27 @@
-* { color: #111; font-family: sans-serif, "Helvetica", "Arial"; }
-p { font-size: 10pt; }
-a { color: #777; font-weight: bold; text-decoration: none; }
-body { margin: 0px; }
-#header { display: flex; color: white; background-color: #161; }
-#header * { color: white; }
-#header #login-information { position: relative; left: auto; right: 0px; }
-#header h1 { height: 100%; margin: .1em; }
-.link { padding: .1em; }
-.labelrow td { font-weight: bold; text-align: center; }
-.labelcolumn { font-weight: bold; text-align: right; }
-.item_list { list-style: none; }
-.form-table select, .form-table input { width: 15em; }
-
+#blockbody {
+  max-width: 30em;
+  margin: 0 auto;
+}
+.navbar-link, .navbar-text {
+  margin-left: 1ex;
+  margin-right: 1ex;
+}
+.oi {
+  margin-left: .5ex;
+  margin-right: .5ex;
+}
+.page-header h2 {
+  float: left;
+}
+.page-header a {
+  float: right;
+}
+form {
+  display: grid;
+}
+input[type="submit"] {
+  float: right;
+}
+.pane {
+  padding: 0.5ex;
+}

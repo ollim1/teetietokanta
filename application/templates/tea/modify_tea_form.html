@@ -2,46 +2,45 @@
 
 {% block body %}
 <h2>Muokkaa teetä</h2>
-<div class="form">
-  <form action="{{url_for('modify_tea')}}" method="POST">
+<div class="pane form">
+  <form class="form" action="{{url_for('modify_tea')}}" method="POST">
     <input type="hidden" name="id" value="{{tea.id}}">
-    <table class="form-table">
-      <tr class="labelrow">
-        <td>{{form.name.label}}</td>
-        <td>{{form.temperature.label}}</td>
-        <td>{{form.brewtime.label}}</td>
-      </tr>
-      <tr class="contentrow">
-        </td>
-        <td>{{form.name}}</td>
-        <td>{{form.temperature}}</td>
-        <td>{{form.brewtime}}</td>
-      </tr>
-      <tr class="labelrow">
-        <td>{{form.boiled.label}}</td>
-        <td>{{form.type.label}}</td>
-      </tr>
-      <tr class="contentrow">
-        <td>{{form.boiled}}</td>
-        <td>{{form.type}}</td>
-      </tr>
-    </table>
+    <div class="form-group">
+      {{form.name.label(class_="form-control-label")}}
+      {{form.name(class_="form-control", placeholder=form.name.label.text)}}
+    </div>
+    <div class="form-group">
+      {{form.temperature.label(class_="form-control-label")}}
+      {{form.temperature(class_="form-control", placeholder=form.temperature.label.text)}}
+    </div>
+    <div class="form-group">
+      {{form.brewtime.label(class_="form-control-label")}}
+      {{form.brewtime(class_="form-control", placeholder=form.brewtime.label.text)}}
+    </div>
+    <div class="form-check form-check-inline">
+      {{form.boiled.label(class_="form-control-label")}}
+      {{form.boiled(class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{form.type.label(class_="form-control-label")}}
+      {{form.type(class_="form-control", placeholder=form.type.label.text)}}
+    </div>
+    </tr>
     <div>
-      <input type="submit" value="Tallenna muokkaus">
+      <input type="submit" class="btn btn-primary form-control" value="Tallenna muokkaus">
     </div>
-    <div id="ingredients">
-      <a href="{{url_for('add_ingredient_to_tea', id = tea.id)}}">Lisää ainesosia</a>
-      <h3>Ainesosat</h3>
-      <table id="ingredient_list">
-        <tr class="labelrow">
-          <td>Ainesosa</td>
-        </tr>
-        {%for ingredient in ingredients%}
-        <tr>
-          <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
-        </tr>
-        {%endfor%}
-    </div>
-  </form>
 </div>
-{% endblock %}
+<div class="pane" id="ingredients">
+  <a class="btn btn-secondary form-control" href="{{url_for('add_ingredient_to_tea', id = tea.id)}}">Lisää ainesosia</a>
+  <table class="table" id="ingredient_list">
+    <thead>
+      <th>Ainesosat</th>
+    </thead>
+    {%for ingredient in ingredients%}
+    <tr>
+      <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
+    </tr>
+    {%endfor%}
+</div>
+  </form>
+  {% endblock %}

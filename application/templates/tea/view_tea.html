@@ -1,38 +1,50 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h2>{{tea.name}}</h2>
-<a href="{{url_for('modify_tea_form', id=tea.id)}}">Muokkaa<a>
-<div class="form">
+<div class="page-header">
+  <h2>{{tea.name}}</h2>
+  <div class="button-pane">
+    <a class="btn btn-primary" href="{{url_for('add_review', id=tea.id)}}">Arvostele</a>
+    <a class="btn btn-primary" href="{{url_for('modify_tea_form', id=tea.id)}}">Muokkaa</a>
+  </div>
+</div>
+<div class="pane form">
   <input type="hidden" name="id" value="{{tea.id}}">
-  <table class="listing_table">
-    <tr>
-      <td class="labelcolumn">Tyyppi</td>
-      <td class="contentcolumn">{%if teatype%}{{teatype}}{%endif%}</td>
-    </tr>
-    <tr>
-      <td class="labelcolumn">Lämpötila</td>
-      <td class="contentcolumn">{%if tea.type%}{{tea.temperature}}{%endif%}</td>
-    </tr>
-    <tr>
-      </td>
-      <td class="labelcolumn">Haudutusaika</td>
-      <td class="contentcolumn">{%if tea.type%}{{tea.brewtime}}{%endif%}</td>
-    </tr>
-    <tr>
-      <td class="labelcolumn">Keitetty</td>
-      <td class="contentcolumn">{%if tea.boiled%}Kyllä{%else%}Ei{%endif%}</td>
-    </tr>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th scope="row">Tyyppi</th>
+        <td class="contentcolumn">{%if teatype%}{{teatype}}{%endif%}</td>
+      </tr>
+      <tr>
+        <th scope="row">Lämpötila</th>
+        <td class="contentcolumn">{%if tea.type%}{{tea.temperature}} °C{%endif%}</td>
+      </tr>
+      <tr>
+        </td>
+        <th scope="row">Haudutusaika</th>
+        <td class="contentcolumn">{%if tea.type%}{{tea.brewtime}} min{%endif%}</td>
+      </tr>
+      <tr>
+        <th scope="row">Keitetty</th>
+        <td class="contentcolumn">{%if tea.boiled%}Kyllä{%else%}Ei{%endif%}</td>
+      </tr>
+    </tbody>
   </table>
-  <div id="ingredients">
-    <h3>Ainesosat</h3>
-    <ul class="item_list">
-      {%for ingredient in ingredients%}
-      <li>
-        <span class="ingredient teaitem">{{ingredient.name}}</span>
-      </li>
-      {%endfor%}
-    </ul>
+  <div class="pane" id="ingredients">
+    <table class="table">
+      <thead>
+        <th>Ainesosat</th>
+      </thead>
+      <tbody>
+        {%for ingredient in ingredients%}
+        <tr>
+          <td>
+            <span class="ingredient teaitem">{{ingredient.name}}</span>
+          </td>
+        </tr>
+        {%endfor%}
+      </tbody>
   </div>
 </div>
 {% endblock %}

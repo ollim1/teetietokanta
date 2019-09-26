@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Arvostele tee {{tea.name}}</h2>
+<div class="pane form">
+  <form class="form-inline" action="{{url_for('add_review')}}" method="POST">
+    <input type="hidden" name="id" value="{{tea.id}}">
+    <div class+"form-group">
+      {{form.score.label}}
+      {{form.score(class_="form-control")}}
+    </div>
+    <div class="form-group">
+      {{form.text.label}}
+      {{form.text(class_="form-control", placeholder=form.text.label.text)}}
+    </div>
+    <div class="form-check form-check-inline">
+      {{form.add_brewinfo.label}}
+      {{form.add_brewinfo(class_="form-control")}}
+    </div>
+    <div id="brewdata">
+      <div class="form-group">
+        {{form.temperature.label}}
+        {{form.temperature(class_="form-control", placeholder=form.temperature.label.text)}}
+      </div>
+      <div class="form-group">
+        {{form.brewtime.label}}
+        {{form.brewtime(class_="form-control", placeholder=form.brewtime.label.text)}}
+      </div>
+      <div class="form-check form-check-inline">
+        {{form.boiled.label}}
+        {{form.boiled(class_="form-control")}}
+      </div>
+    </div>
+    <input type="submit" class="btn btn-primary form-control" value="Tallenna">
+  </form>
+</div>
+{% endblock %}

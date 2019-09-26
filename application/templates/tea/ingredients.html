@@ -1,19 +1,24 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<h2> Ainesosat </h2>
-<div id="list">
-  <table>
-    <tr class="labelrow">
-      <td>Ainesosa</td>
-    </tr>
+<div class="page-header">
+  <h2> Ainesosat </h2>
+  <a class="btn btn-primary" href="{{url_for('add_ingredient')}}">Lisää uusi</a>
+</div>
+<div class="pane" id="list">
+  <table class="table">
+    <thead>
+      <th scope="col">Ainesosa</th>
+    </thead>
     {% for ingredient in ingredients %}
-    <tr>
-      <td>
-        <span class="ingredient teaitem">{{ingredient.name}}</span>
-      </td>
-    </tr>
-    {% endfor %}
+    <tbody>
+      <tr>
+        <td>
+          <span class="ingredient teaitem">{{ingredient.name}}</span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 </div>
 {% endblock %}
