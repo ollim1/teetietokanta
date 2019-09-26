@@ -86,7 +86,7 @@ class Tea(BrewData, Named):
         stmt = text("SELECT tea.id, tea.name, tea_type.name, AVG(review.score) as average FROM tea"
                 + " LEFT JOIN tea_type ON tea_type.id = tea.type"
                 + " LEFT JOIN review ON review.tea = tea.id"
-                + " GROUP BY tea.id"
+                + " GROUP BY tea.id, tea_type.name"
                 + " ORDER BY average DESC")
         res = db.engine.execute(stmt)
         response = []
