@@ -33,7 +33,7 @@ class TeaType(Named):
     @staticmethod
     def selection_list():
         stmt = text("SELECT id, name FROM tea_type")
-        res = db.engine.execute(stmt)
+        res = db.engine.execute(stmt).fetchall()
         response = []
         response.append((-1, "Tyhjä"))
         for row in res:
@@ -48,7 +48,7 @@ class Ingredient(Named):
     @staticmethod
     def selection_list():
         stmt = text("SELECT id, name FROM ingredient")
-        res = db.engine.execute(stmt)
+        res = db.engine.execute(stmt).fetchall()
         response = []
         response.append((-1, "Tyhjä"))
         for row in res:
@@ -97,7 +97,7 @@ class Tea(BrewData, Named):
     @staticmethod
     def selection_list():
         stmt = text("SELECT tea.id, tea.name FROM tea")
-        res = db.engine.execute(stmt)
+        res = db.engine.execute(stmt).fetchall()
         response = []
         response.append((-1, "Tyhjä"))
         for row in res:
