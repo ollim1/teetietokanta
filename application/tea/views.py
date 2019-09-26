@@ -122,13 +122,19 @@ def add_ingredient_to_tea():
     else:
         id = request.form.get("id")
         ingredient_id = request.form.get("ingredient")
-        if id and ingredient_id and ingredient_id != -1:
+        if not id:
+            return abort(404)
+        if not ingredient_id:
+            return redirect(url_for("add_ingredient_to_tea", id = id))
+        ingredient_id = int(ingredient_id)
+        if ingredient_id != -1:
             tea = db.session.query(Tea).get(id)
+            print("\n\n\nid: " + str(id) + ", ingredient_id: " + ingredient_id + "\n\n\n")
             ingredient = db.session.query(Ingredient).get(ingredient_id)
             tea.ingredients.append(ingredient)
             db.session.commit()
         else:
-            print("id: " + str(id) + ", ingredient_id: " + ingredient_id)
+            print("\n\n\nfailed to add ingredient: id: " + str(id) + ", ingredient_id: " + str(ingredient_id) + "\n\n\n")
         return redirect(url_for("add_ingredient_to_tea", id = id))
 
 @app.route("/tea/ingredients")
