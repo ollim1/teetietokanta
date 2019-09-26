@@ -25,3 +25,16 @@ input[type="submit"] {
 .pane {
   padding: 0.5ex;
 }
+.unbulleted {
+  list-style: none;
+}
+#review-text {
+  width: 100%;
+  height: 100%;
+}
+.score-radio {
+  width: 1em;
+}
+.score {
+  width: 1ex;
+}

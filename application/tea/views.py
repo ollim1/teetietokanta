@@ -99,7 +99,7 @@ def modify_tea():
     temperature = request.form.get("temperature")
     brewtime = request.form.get("brewtime")
     boiled = request.form.get("boiled") == "y"
-    type = request.form.get("type")
+    type = int(request.form.get("type"))
     tea = db.session.query(Tea).get(id)
     tea.name = name
     tea.temperature = temperature

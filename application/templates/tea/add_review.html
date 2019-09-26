@@ -3,30 +3,35 @@
 {% block body %}
 <h2>Arvostele tee {{tea.name}}</h2>
 <div class="pane form">
-  <form class="form-inline" action="{{url_for('add_review')}}" method="POST">
+  <form class="form" action="{{url_for('add_review')}}" method="POST">
     <input type="hidden" name="id" value="{{tea.id}}">
-    <div class+"form-group">
-      {{form.score.label}}
-      {{form.score(class_="form-control")}}
-    </div>
-    <div class="form-group">
-      {{form.text.label}}
-      {{form.text(class_="form-control", placeholder=form.text.label.text)}}
+    <div class="row">
+      <div class="col-3">
+        {%for subfield in form.score%}
+        <div class="col form-check form-check-inline">
+          <div class="col-1">{{subfield(class_="score-radio form-control")}}</div>
+          <div class="col">{{subfield.label(class_="score")}}</div>
+        </div>
+        {%endfor%}
+      </div>
+      <div class="col form-group">
+        {{form.text(class_="form-control", id="review-text", placeholder=form.text.label.text)}}
+      </div>
     </div>
     <div class="form-check form-check-inline">
       {{form.add_brewinfo.label}}
       {{form.add_brewinfo(class_="form-control")}}
     </div>
     <div id="brewdata">
-      <div class="form-group">
+      <div class="form-group" class="col">
         {{form.temperature.label}}
         {{form.temperature(class_="form-control", placeholder=form.temperature.label.text)}}
       </div>
-      <div class="form-group">
+      <div class="form-group" class="col">
         {{form.brewtime.label}}
         {{form.brewtime(class_="form-control", placeholder=form.brewtime.label.text)}}
       </div>
-      <div class="form-check form-check-inline">
+      <div class="form-check form-check-inline" class="col">
         {{form.boiled.label}}
         {{form.boiled(class_="form-control")}}
       </div>
