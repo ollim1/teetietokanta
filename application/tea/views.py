@@ -85,9 +85,10 @@ def modify_tea_form():
             print("could not find tea: id " + str(id))
             abort(404)
         tea_info = tea.get_info()
+        form = TeaModificationForm(data = {"name": tea.name, "temperature": tea.temperature, "brewtime": tea.brewtime, "boiled": tea.boiled, "type": tea.type})
+        form.type.choices = TeaType.selection_list()
         return render_template("/tea/modify_tea_form.html",
-                form = TeaModificationForm(data = {"name": tea.name, "temperature": tea.temperature, "brewtime": tea.brewtime, "boiled": tea.boiled, "type": tea.type}),
-                tea = tea, ingredients = tea_info["ingredients"])
+                form = form, tea = tea)
     else:
         abort(404)
 
@@ -108,7 +109,7 @@ def modify_tea():
     if type != -1:
         tea.type = type
     db.session.commit()
-    return redirect(url_for("modify_tea_form", id = id))
+    return redirect(url_for("view_tea", id = id))
 
 @app.route("/tea/delete_tea", methods=["POST"])
 @login_required
@@ -132,7 +133,9 @@ def add_ingredient_to_tea():
         tea = db.session.query(Tea).get(id)
         if not tea:
             return abort(404)
-        return render_template("tea/add_ingredient_to_tea.html", id = id, form = AddIngredientToTeaForm(), tea = tea, ingredients = tea.get_info()["ingredients"])
+        form = AddIngredientToTeaForm()
+        form.ingredient.choices=Ingredient.selection_list()
+        return render_template("tea/add_ingredient_to_tea.html", id = id, form = form, tea = tea, ingredients = tea.get_info()["ingredients"])
     else:
         id = request.form.get("id")
         ingredient_id = request.form.get("ingredient")
@@ -176,7 +179,8 @@ def add_teatype():
 @login_required
 def add_ingredient():
     if request.method == "POST":
-        name = request.form.get("name")
+        form = IngredientForm(request.form)
+        name = form.name.data
         if not Ingredient.query.filter_by(name=name).first():
             ingredient = Ingredient(name)
             db.session.add(ingredient)

@@ -74,3 +74,64 @@
 ```
 
 ![Tietokantakaavio](tietokantakaavio.png)
+
+Taulunluontikäskyt:
+
+```
+CREATE TABLE tea_type (
+	id INTEGER NOT NULL, 
+	name VARCHAR(256) NOT NULL, 
+	PRIMARY KEY (id)
+);
+CREATE TABLE ingredient (
+	id INTEGER NOT NULL, 
+	name VARCHAR(256) NOT NULL, 
+	PRIMARY KEY (id)
+);
+CREATE TABLE user (
+	id INTEGER NOT NULL, 
+	name VARCHAR(256) NOT NULL, 
+	PRIMARY KEY (id)
+);
+CREATE TABLE account (
+	id INTEGER NOT NULL, 
+	date_created DATETIME, 
+	date_modified DATETIME, 
+	name VARCHAR(144) NOT NULL, 
+	username VARCHAR(144) NOT NULL, 
+	password VARCHAR(144) NOT NULL, 
+	PRIMARY KEY (id)
+);
+CREATE TABLE tea (
+	temperature FLOAT, 
+	brewtime FLOAT, 
+	boiled BOOLEAN, 
+	id INTEGER NOT NULL, 
+	name VARCHAR(256) NOT NULL, 
+	type INTEGER, 
+	PRIMARY KEY (id), 
+	CHECK (boiled IN (0, 1)), 
+	FOREIGN KEY(type) REFERENCES tea_type (id)
+);
+CREATE TABLE tea_ingredient (
+	tea INTEGER NOT NULL, 
+	ingredient INTEGER NOT NULL, 
+	PRIMARY KEY (tea, ingredient), 
+	FOREIGN KEY(tea) REFERENCES tea (id), 
+	FOREIGN KEY(ingredient) REFERENCES ingredient (id)
+);
+CREATE TABLE review (
+	temperature FLOAT, 
+	brewtime FLOAT, 
+	boiled BOOLEAN, 
+	id INTEGER NOT NULL, 
+	user INTEGER, 
+	tea INTEGER, 
+	score INTEGER, 
+	content TEXT, 
+	PRIMARY KEY (id), 
+	CHECK (boiled IN (0, 1)), 
+	FOREIGN KEY(user) REFERENCES user (id), 
+	FOREIGN KEY(tea) REFERENCES tea (id)
+);
+```

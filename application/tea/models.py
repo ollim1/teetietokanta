@@ -88,7 +88,7 @@ class Tea(BrewData, Named):
                 + " LEFT JOIN review ON review.tea = tea.id"
                 + " GROUP BY tea.id, tea_type.name"
                 + " ORDER BY average DESC")
-        res = db.engine.execute(stmt)
+        res = db.engine.execute(stmt).fetchall()
         response = []
         for row in res:
             response.append({"id":row[0], "name":row[1], "type":row[2], "score":row[3]})

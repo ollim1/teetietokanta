@@ -29,18 +29,6 @@
     <div>
       <input type="submit" class="btn btn-primary form-control" value="Tallenna muokkaus">
     </div>
-</div>
-<div class="pane" id="ingredients">
-  <a class="btn btn-secondary form-control" href="{{url_for('add_ingredient_to_tea', id = tea.id)}}">Lisää ainesosia</a>
-  <table class="table" id="ingredient_list">
-    <thead>
-      <th>Ainesosat</th>
-    </thead>
-    {%for ingredient in ingredients%}
-    <tr>
-      <td><span class="ingredient teaitem">{{ingredient.name}}</span></td>
-    </tr>
-    {%endfor%}
-</div>
   </form>
-  {% endblock %}
+</div>
+{% endblock %}

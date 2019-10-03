@@ -2,9 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <!--
-      <link rel="stylesheet" href="{{url_for('static', filename='css/template.css')}}">
-    -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/template.css')}}">
@@ -20,26 +17,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="teas" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Teet</a>
-            <div class="dropdown-menu" aria-labelledby="teas">
-              <a class="dropdown-item" href="{{url_for('teas_page')}}">Teet</a>
-              <a class="dropdown-item" href="{{url_for('add_tea')}}">Lisää tee</a>
-            </div>
+          <li class="nav-item">
+              <a class="nav-link" href="{{url_for('teas_page')}}">Teet</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{{url_for('teatypes_page')}}">Teetyypit</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="teatypes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Teetyypit</a>
-            <div class="dropdown-menu" aria-labelledby="teatypes">
-              <a class="dropdown-item" href="{{url_for('teatypes_page')}}">Teetyypit</a>
-              <a class="dropdown-item" href="{{url_for('add_teatype')}}">Lisää teetyyppi</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="ingredients" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ainesosat</a>
-            <div class="dropdown-menu" aria-labelledby="ingredients">
-              <a class="dropdown-item" href="{{url_for('ingredients_page')}}">Ainesosat</a>
-              <a class="dropdown-item" href="{{url_for('add_ingredient')}}">Lisää ainesosa</a>
-            </div>
+              <a class="nav-link" href="{{url_for('ingredients_page')}}">Ainesosat</a>
           </li>
           <li class="nav-item">
           </li>
