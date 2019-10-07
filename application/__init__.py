@@ -67,7 +67,10 @@ try:
 except:
     pass
 
-# raw sql statements require the database to be formatted
+# importing views here because raw sql statements require the database to be formatted
 from application import views
-from application.tea import views
+from application.tea.ingredients import views
+from application.tea.teatypes import views
+from application.tea.teas import views
+from application.tea.reviews import views
 from application.auth import views
