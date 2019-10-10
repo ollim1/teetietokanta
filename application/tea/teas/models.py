@@ -1,5 +1,5 @@
 from application import db
-from application.tea.models import *
+from application.tea import models
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Table, PrimaryKeyConstraint
 from sqlalchemy.sql import text
 from sqlalchemy.orm import relationship

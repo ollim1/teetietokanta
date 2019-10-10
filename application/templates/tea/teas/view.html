@@ -5,7 +5,7 @@
   <h2>{{tea.name}}</h2>
   <div class="button-pane">
     <a class="btn btn-primary" href="{{url_for('add_review', id=tea.id)}}">Arvostele</a>
-    <a class="btn btn-primary" href="{{url_for('modify_tea_form', id=tea.id)}}">Muokkaa</a>
+    <a class="btn btn-primary" href="{{url_for('modify_tea', id=tea.id)}}">Muokkaa</a>
   </div>
 </div>
 <div class="pane form">
@@ -18,12 +18,12 @@
       </tr>
       <tr>
         <th scope="row">Lämpötila</th>
-        <td class="contentcolumn">{%if tea.type%}{{tea.temperature}} °C{%endif%}</td>
+        <td class="contentcolumn">{%if tea.temperature%}{{tea.temperature}} °C{%endif%}</td>
       </tr>
       <tr>
         </td>
         <th scope="row">Haudutusaika</th>
-        <td class="contentcolumn">{%if tea.type%}{{tea.brewtime}} min{%endif%}</td>
+        <td class="contentcolumn">{%if tea.brewtime%}{{tea.brewtime}} min{%endif%}</td>
       </tr>
       <tr>
         <th scope="row">Keitetty</th>

@@ -1,5 +1,5 @@
 from application import db
-from application.auth.models import User
+from application.auth import models
 from application.tea.models import *
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Table, PrimaryKeyConstraint
 from sqlalchemy.sql import text
@@ -20,4 +20,3 @@ class Review(BrewData):
         self.temperature = temperature
         self.brewtime = brewtime
         self.boiled = boiled
-

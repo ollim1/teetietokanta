@@ -3,7 +3,7 @@ from flask import abort
 from flask_wtf import FlaskForm
 from flask_login import login_required, current_user, login_user
 from flask import redirect, render_template, request, url_for
-from application.tea.models import TeaType, Ingredient, Tea, User, Review
+from application.tea import models
 from application.tea.forms import TeaTypeForm, IngredientForm, BrewDataForm, ReviewForm, TeaNameForm, TeaModificationForm, AddIngredientToTeaForm
 
 @app.route("/tea/ingredients")

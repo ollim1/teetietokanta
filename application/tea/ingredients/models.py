@@ -1,5 +1,9 @@
 from application import db
 from application.tea.models import *
+from application.tea.teatypes.models import *
+from application.tea.reviews.models import *
+from application.tea.teas.models import *
+from application.tea.ingredients.models import *
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Table, PrimaryKeyConstraint
 from sqlalchemy.sql import text
 from sqlalchemy.orm import relationship
