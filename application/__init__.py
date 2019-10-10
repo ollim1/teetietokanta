@@ -33,6 +33,7 @@ def login_required(role="ANY"):
         @wraps(fn)
         def decorated_view(*args, **kwargs):
             if not current_user or not current_user.is_authenticated:
+                print("user not authenticated")
                 return login_manager.unauthorized()
             unauthorized = False
             if role != "ANY":
@@ -40,7 +41,10 @@ def login_required(role="ANY"):
                 user_role = current_user.role_object
                 if user_role and user_role.name == role:
                     unauthorized = False
+                elif user_role:
+                    print("role: " + role + ", user role: " + user_role.name)
             if unauthorized:
+                print("user unauthorized")
                 return login_manager.unauthorized()
             return fn(*args, **kwargs)
         return decorated_view

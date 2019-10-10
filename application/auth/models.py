@@ -23,13 +23,18 @@ class User(db.Model):
 
     reviews = db.relationship("Review")
     role_object = db.relationship("Role", backref="users")
-    def __init__(self, name, username, password, role = Role.query.filter_by(name="user")):
+    def __init__(self, name, username, password):
         self.name = name
         self.username = username
         self.password = password
   
     def get_id(self):
         return self.id
+
+    def get_role(self):
+        if not self.role:
+            return None
+        return db.session.query(Role).get(self.role)
 
     def is_active(self):
         return True
@@ -39,3 +44,4 @@ class User(db.Model):
 
     def is_authenticated(self):
         return True
+

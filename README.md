@@ -12,5 +12,9 @@ Tietokanta teelajikkeille ja niiden arvosteluille.
 
 [User storyt](dokumentaatio/userstory.md)
 
+[Asennusohje](dokumentaatio/asennusohje.md)
+
+[Käyttöohje](dokumentaatio/kayttoohje.md)
+
 ### Käyttäjän luominen
 - Käyttäjätunnukset voidaan luoda sovelluksen käyttöliittymässä linkistä "Luo uusi käyttäjä".

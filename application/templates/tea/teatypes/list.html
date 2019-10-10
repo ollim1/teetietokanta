@@ -14,7 +14,17 @@
       {% for teatype in teatypes %}
       <tr>
         <td>
+          {% if current_user and current_user.is_authenticated and current_user.role_object.name == "admin" %}
+          <div class="input-group">
+            <form class="form-inline" action="{{url_for('modify_teatype')}}" method="POST">
+              <input type="hidden" name="id" value="{{teatype.id}}"/>
+              <input type="text" class="form-control" name="name" value="{{teatype.name}}"/>
+            </form>
+            <a class="btn btn-secondary form-control" href="{{url_for('delete_teatype', id=teatype.id)}}">Poista</a>
+          </div>
+          {% else %}
           <span class="ingredient teaitem">{{teatype.name}}</span>
+          {% endif %}
         </td>
       </tr>
       {% endfor %}

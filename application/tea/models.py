@@ -42,13 +42,15 @@ class Ingredient(Named):
 class Review(BrewData):
     id = db.Column(db.Integer, primary_key = True)
     user = db.Column(db.Integer, db.ForeignKey('account.id'))
+    title = db.Column(db.String(256))
     tea = db.Column(db.Integer, db.ForeignKey('tea.id'))
     score = db.Column(db.Integer)
     content = db.Column(db.Text)
 
-    def __init__(self, user, tea, score, content, temperature = None, brewtime = None, boiled = None):
+    def __init__(self, user, title, tea, score, content, temperature = None, brewtime = None, boiled = None):
         self.user = user
         self.tea = tea
+        self.title = title
         self.score = score
         self.content = content
         self.temperature = temperature

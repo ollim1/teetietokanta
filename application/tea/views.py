@@ -25,6 +25,35 @@ def add_ingredient():
     else:
         return render_template("tea/ingredients/add.html", form = IngredientForm())
 
+@app.route("/tea/ingredients/modify", methods=["POST"])
+@login_required(role="admin")
+def modify_ingredient():
+    id = int(request.form.get("id"))
+    name = request.form.get("name")
+    ingredient = db.session.query(TeaType).get(id)
+    if not name or length(name) < 1 or length(name) > 255:
+        return render_template("tea/ingredients/list.html",
+                error = "Uusi nimi on liian pitkä tai lyhyt",
+                ingredients = Ingredient.query.all())
+    if not ingredient:
+        return error(404)
+    ingredient.name = name
+    db.session.commit()
+    return redirect(url_for("ingredients_page"))
+
+@app.route("/tea/ingredients/delete", methods=["GET"])
+@login_required(role="admin")
+def delete_ingredient():
+    id = int(request.args.get("id"))
+    ingredient = db.session.query(Ingredient).get(id)
+    if not ingredient:
+        return error(404)
+    for tea in ingredient.teas:
+        tea.ingredients.remove(ingredient)
+    db.session.delete(ingredient)
+    db.session.commit()
+    return render_template("tea/ingredients/list.html")
+
 @app.route("/tea/reviews/add", methods=["GET", "POST"])
 @login_required()
 def add_review():
@@ -45,18 +74,20 @@ def add_review():
             "type": tea.type}),
             tea = tea)
     else:
+        form = ReviewForm(request.form)
         id = request.form.get("id")
-        score = request.form.get("score")
-        text = request.form.get("text")
-        add_brewinfo = request.form.get("add_brewinfo") == "y"
+        score = form.score.data
+        title = form.title.data
+        text = form.text.data
+        add_brewinfo = form.add_brewinfo.data
         review = None
         if add_brewinfo:
             temperature = request.form.get("temperature")
             brewtime = request.form.get("brewtime")
             boiled = request.form.get("boiled") == "y"
-            review = Review(user = current_user.id, tea = id, score = int(score), content = text, temperature = temperature, brewtime = brewtime, boiled = boiled)
+            review = Review(user = current_user.id, title = title, tea = id, score = int(score), content = text, temperature = temperature, brewtime = brewtime, boiled = boiled)
         else:
-            review = Review(user = current_user.id, tea = id, score = int(score), content = text, temperature = None, brewtime = None, boiled = None)
+            review = Review(user = current_user.id, title = title,  tea = id, score = int(score), content = text, temperature = None, brewtime = None, boiled = None)
         print("current_user is " + str(current_user.id))
         print("tea is " + str(id))
         db.session.add(review)
@@ -133,7 +164,7 @@ def modify_tea():
         return redirect(url_for("view_tea", id = id))
 
 @app.route("/tea/teas/delete", methods=["POST"])
-@login_required()
+@login_required(role="admin")
 def delete_tea():
     id = request.form.get("id")
     tea = db.session.query(Tea).get(id)
@@ -167,7 +198,7 @@ def add_ingredient_to_tea():
         ingredient_id = int(ingredient_id)
         if ingredient_id != -1:
             tea = db.session.query(Tea).get(id)
-            print("\n\n\nid: " + str(id) + ", ingredient_id: " + ingredient_id + "\n\n\n")
+            print("\n\n\nid: " + str(id) + ", ingredient_id: " + str(ingredient_id) + "\n\n\n")
             ingredient = db.session.query(Ingredient).get(ingredient_id)
             tea.ingredients.append(ingredient)
             db.session.commit()
@@ -195,21 +226,26 @@ def add_teatype():
 @app.route("/tea/teatypes/delete", methods=["GET"])
 @login_required(role="admin")
 def delete_teatype():
-    id = int(request.args.get(id))
-    teatype = db.session.query.get(id)
+    id = int(request.args.get("id"))
+    teatype = db.session.query(TeaType).get(id)
     if not teatype:
         return error(404)
     for tea in teatype.teas:
         tea.teatype = None
+    db.session.delete(teatype)
     db.session.commit()
     return render_template("tea/teatypes/list.html")
 
 @app.route("/tea/teatypes/modify", methods=["POST"])
 @login_required(role="admin")
 def modify_teatype():
-    id = int(request.args.get("id"))
-    name = request.args.get("name")
-    teatype = db.session.query.get(id)
+    id = int(request.form.get("id"))
+    name = request.form.get("name")
+    teatype = db.session.query(TeaType).get(id)
+    if not name or length(name) < 1 or length(name) > 255:
+        return render_template("tea/teatypes/list.html",
+                error = "Uusi nimi on liian pitkä tai lyhyt",
+                teatypes = TeaType.query.all())
     if not teatype:
         return error(404)
     teatype.name = name

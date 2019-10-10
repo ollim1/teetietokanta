@@ -14,7 +14,17 @@
     <tbody>
       <tr>
         <td>
+          {% if current_user and current_user.is_authenticated and current_user.role_object.name == "admin" %}
+          <div class="input-group">
+            <form class="form-inline" action="{{url_for('modify_ingredient')}}" method="POST">
+              <input type="hidden" name="id" value="{{ingredient.id}}"/>
+              <input type="text" class="form-control" name="name" value="{{ingredient.name}}"/>
+            </form>
+            <a class="btn btn-secondary form-control" href="{{url_for('delete_ingredient', id=ingredient.id)}}">Poista</a>
+          </div>
+          {% else %}
           <span class="ingredient teaitem">{{ingredient.name}}</span>
+          {% endif %}
         </td>
       </tr>
       {% endfor %}

@@ -1,8 +1,8 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 from flask_login import login_user, logout_user, current_user
 
 from application import app, db
-from application.auth.models import User
+from application.auth.models import User, Role
 from application.auth.forms import LoginForm, AddUserForm
 
 @app.route("/auth/login", methods = ["GET", "POST"])
@@ -39,6 +39,7 @@ def auth_add_user():
                                error = "Käyttäjänimi on jo käytössä")
 
     user = User(form.name.data, form.username.data, form.password.data)
+    user.role = Role.query.filter_by(name="user").first().id
     db.session.add(user)
     db.session.commit()
     print("Käyttäjä " + user.name + " luotu")
