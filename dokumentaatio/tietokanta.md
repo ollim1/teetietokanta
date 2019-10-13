@@ -25,6 +25,8 @@
   - tee fk-> Teelaji
   - arvosana
   - teksti
+  - lisäysaika
+  - muokkausaika
   - haudutusaika
   - haudutuslämpötila
   - onko vesi keitetty
@@ -46,7 +48,7 @@
 [Teelaji|(pk) id:integer;nimi:string;kuvaus:string;(fk) tyyppi:integer;onkoBlend:boolean;haudutusaika:integer;lämpötila:integer;keitetäänkö:boolean]
 [Teetyyppi|(pk) id:integer;nimi:string]
 [Ainesosa|(pk) id:integer;nimi:string]
-[Arvostelu|(pk) id:integer;(fk) tee:integer;arvosana:integer;teksti:string;haudutusaika:integer;lämpötila:integer;keitetty:boolean]
+[Arvostelu|(pk) id:integer;(fk) tee:integer;arvosana:integer;otsikko:string;teksti:string;haudutusaika:integer;lämpötila:integer;keitetty:boolean]
 [TeeAinesosa|(fk) tee:integer; (fk) ainesosa:integer]
 
 [Käyttäjä]1--*[Arvostelu]
@@ -63,7 +65,7 @@
 [Tea|(pk) id:integer;name:string;description:string;(fk) type:integer;brewtime:integer;temperature:integer;boiled:boolean]
 [TeaType|(pk) id:integer;name:string]
 [Ingredient|(pk) id:integer;name:string]
-[Review|(pk) id:integer;(fk) tea:integer;score:integer;text:string;brewtime:integer;temperature:integer;boiled:boolean]
+[Review|(pk) id:integer;(fk) tea:integer;score;title:string;integer;text:string;brewtime:integer;temperature:integer;boiled:boolean]
 [TeaIngredient|(fk) tea:integer; (fk) ingredient:integer]
 
 [User]1--*[Review]
@@ -78,9 +80,9 @@
 Taulunluontikäskyt:
 
 ```
-CREATE TABLE tea_type (
+REATE TABLE role (
 	id INTEGER NOT NULL, 
-	name VARCHAR(256) NOT NULL, 
+	name VARCHAR(144) NOT NULL, 
 	PRIMARY KEY (id)
 );
 CREATE TABLE ingredient (
@@ -88,7 +90,7 @@ CREATE TABLE ingredient (
 	name VARCHAR(256) NOT NULL, 
 	PRIMARY KEY (id)
 );
-CREATE TABLE user (
+CREATE TABLE tea_type (
 	id INTEGER NOT NULL, 
 	name VARCHAR(256) NOT NULL, 
 	PRIMARY KEY (id)
@@ -100,7 +102,9 @@ CREATE TABLE account (
 	name VARCHAR(144) NOT NULL, 
 	username VARCHAR(144) NOT NULL, 
 	password VARCHAR(144) NOT NULL, 
-	PRIMARY KEY (id)
+	role INTEGER, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(role) REFERENCES role (id)
 );
 CREATE TABLE tea (
 	temperature FLOAT, 
@@ -124,14 +128,17 @@ CREATE TABLE review (
 	temperature FLOAT, 
 	brewtime FLOAT, 
 	boiled BOOLEAN, 
+	date_created DATETIME, 
+	date_modified DATETIME, 
 	id INTEGER NOT NULL, 
 	user INTEGER, 
+	title VARCHAR(256), 
 	tea INTEGER, 
 	score INTEGER, 
 	content TEXT, 
 	PRIMARY KEY (id), 
 	CHECK (boiled IN (0, 1)), 
-	FOREIGN KEY(user) REFERENCES user (id), 
+	FOREIGN KEY(user) REFERENCES account (id), 
 	FOREIGN KEY(tea) REFERENCES tea (id)
 );
 ```

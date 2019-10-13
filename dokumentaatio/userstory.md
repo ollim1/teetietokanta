@@ -11,10 +11,12 @@ insert into ingredient (name) values (?)
 ## tapaus 2
 Käyttäjä voi lisää tietokantaan uuden teetyypin. Teetyyppi kirjoitetaan lomakkeeseen ja tiedot tallennetaan tallennusnapilla.
 
-Kysely: ```
+Kysely:
+
+```
 insert into tea_type (name)
- values (?)`
- ```
+  values (?)`
+```
 
 ## tapaus 3
 Käyttäjä on lisäämässä uutta teetä tietokantaan. Käyttäjä valitsee ainesosat kuten teelehdet ja mausteet valikosta ja määrittää teen nimen ja haudutustiedot. Käyttäjä syöttää teen nimen ja haudutustiedot lomakkeeseen ja valitsee teen tyypin. Tämän jälkeen käyttäjä lisää teen tietoihin ainesosia yksi kerrallaan listan sisältävästä lomakkeesta. 
@@ -32,7 +34,19 @@ insert into tea_ingredient (tea, ingredient)
 Käyttäjä haluaa kirjoittaa arvostelun teestä tai haudukkeesta. Käyttäjä kirjautuu sisään käyttäjätunnuksellaan, kirjoittaa arvostelutekstin ja antaa arvosanan. Käytetyn haudutuksen yksityiskohdat ovat toivottuja tilastoja muiden käyttöä varten.
 
 Kyselyt:
+
 ```
 insert into review (temperature, brewtime, boiled, user, tea, score, content)
   values (?, ?, ?, ?, ?, ?)
+```
+
+## tapaus
+Käyttäjä voi nähdä kirjoittamansa arvostelut omalla sivullaan. Käyttäjä voi myös nähdä johonkin teehen liittyvät arvostelut teen sivulla
+
+Kyselyt:
+
+```
+select tea.name, review.title, review.score from review
+  join tea on tea.id = review.tea
+  order by score desc
 ```

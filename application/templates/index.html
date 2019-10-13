@@ -6,5 +6,8 @@
   <li> <a href="{{url_for('teas_page')}}">Teet</a> </li>
   <li> <a href="{{url_for('teatypes_page')}}">Teetyypit</a> </li>
   <li> <a href="{{url_for('ingredients_page')}}">Ainesosat</a> </li>
+  {%if current_user and current_user.is_authenticated%}
+  <li> <a href="{{url_for('reviews_page')}}">Arvostelut</a> </li>
+  {%endif%}
 </ul>
 {% endblock %}

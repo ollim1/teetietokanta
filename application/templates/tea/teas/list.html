@@ -19,10 +19,10 @@
           <span class="tea teaitem"><a href="{{url_for('view_tea', id=tea['id'])}}">{{tea["name"]}}</a></span>
         </td>
         <td>
-          <span class="teatype teaitem">{%if tea["type"] %}{{tea["type"]}}{%endif%}</span>
+          {%if tea["type"] %}<span class="teatype teaitem">{{tea["type"]}}</span>{%endif%}
         </td>
         <td>
-          <span class="number teaitem">{%if tea["score"] %}{{tea["score"]}}{%endif%}</span>
+          {%if tea["score"] %}<span class="number teaitem">{{tea["score"]}}</span>{%endif%}
         </td>
       </tr>
       {% endfor %}

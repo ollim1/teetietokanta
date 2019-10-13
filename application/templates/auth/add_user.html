@@ -4,6 +4,9 @@
 <h2>Luo käyttäjä</h2>
 <div class="form">
   <form action="{{url_for('auth_add_user')}}" method="POST">
+    {% if error %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endif %}
     <div class="form-group mb-2">
       {{form.name(class_="form-control", placeholder=form.name.label.text)}}
     </div>

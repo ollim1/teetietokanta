@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="page-header">
+  <h2> Arvostelut </h2>
+</div>
+<div class="pane" id="list">
+  <table class="table">
+    <thead>
+      <th scope="col">Tee</th>
+      <th scope="col">Otsikko</th>
+      <th scope="col">Arvosana</th>
+    </thead>
+    <tbody>
+      {% for row in reviews %}
+      <tr>
+        <td>
+          <span class="tea teaitem"><a href="{{url_for('view_tea', id=row['tea']['id'])}}">{{row['tea']['name']}}</a></span>
+        </td>
+        <td>
+          {%if row['review']['title'] %}<span class="teatype teaitem">{{row['review']['title']}}</span>{%endif%}
+        </td>
+        <td>
+          <span class="number teaitem">{{row['review']['score']}}</span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

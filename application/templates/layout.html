@@ -26,8 +26,11 @@
           <li class="nav-item dropdown">
               <a class="nav-link" href="{{url_for('ingredients_page')}}">Ainesosat</a>
           </li>
+          {%if current_user and current_user.is_authenticated%}
           <li class="nav-item">
+              <a class="nav-link" href="{{url_for('reviews_page')}}">Arvostelut</a>
           </li>
+          {%endif%}
         </ul>
         <div id="login-information form-inline mt-2 mt-md-0">
           <ul class="nav navbar-nav navbar-right">

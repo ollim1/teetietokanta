@@ -51,5 +51,25 @@
         {%endfor%}
       </tbody>
   </div>
+  <div class="pane" id="list">
+    <table class="table">
+      <thead>
+        <th scope="col">Otsikko</th>
+        <th scope="col">Arvosana</th>
+      </thead>
+      <tbody>
+        {% for row in reviews %}
+        <tr>
+          <td>
+            {%if row['review']['title'] %}<span class="teatype teaitem">{{row['review']['title']}}</span>{%endif%}
+          </td>
+          <td>
+            <span class="number teaitem">{{row['review']['score']}}</span>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

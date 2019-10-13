@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, session
 from flask_login import login_user, logout_user, current_user
-
+from werkzeug.urls import url_parse
 from application import app, db
 from application.auth.models import User, Role
 from application.auth.forms import LoginForm, AddUserForm
@@ -8,7 +8,7 @@ from application.auth.forms import LoginForm, AddUserForm
 @app.route("/auth/login", methods = ["GET", "POST"])
 def auth_login():
     if request.method == "GET":
-        return render_template("auth/loginform.html", form = LoginForm())
+        return render_template("auth/loginform.html", form = LoginForm(), next = request.args.get("next"))
 
     form = LoginForm(request.form)
 
@@ -17,9 +17,9 @@ def auth_login():
         return render_template("auth/loginform.html", form = form,
                                error = "Tarkista käyttäjänimi tai salasana")
 
-    print("Käyttäjä " + user.name + " tunnistettiin")
+    print("Käyttäjä %s tunnistettiin" % user.name)
     login_user(user)
-    return redirect(url_for("index"))
+    return redirect(request.form.get("next") or url_for("index"))
 
 @app.route("/auth/logout")
 def auth_logout():
@@ -33,15 +33,19 @@ def auth_add_user():
 
     form = AddUserForm(request.form)
 
-    user = User.query.filter_by(username=form.username.data).first()
-    if user:
-        return render_template("auth/add_user.html", form = form,
-                               error = "Käyttäjänimi on jo käytössä")
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            return render_template("auth/add_user.html", form = form,
+                                   error = "Käyttäjänimi on jo käytössä")
 
-    user = User(form.name.data, form.username.data, form.password.data)
-    user.role = Role.query.filter_by(name="user").first().id
-    db.session.add(user)
-    db.session.commit()
-    print("Käyttäjä " + user.name + " luotu")
-    login_user(user)
+        user = User(form.name.data, form.username.data, form.password.data)
+        user.role = Role.query.filter_by(name="user").first().id
+        db.session.add(user)
+        db.session.commit()
+        print("Käyttäjä %s luotu" % user.name)
+        login_user(user)
+    else:
+        print("validation failed")
+        return render_template("auth/add_user.html", form = form, error = "Salasanojen on oltava sama")
     return redirect(url_for("index"))

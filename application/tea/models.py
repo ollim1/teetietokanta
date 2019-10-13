@@ -3,26 +3,13 @@ from application.auth.models import User
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Table, PrimaryKeyConstraint
 from sqlalchemy.sql import text
 from sqlalchemy.orm import relationship
+from application.tea.base import *
 
 teaingredient = Table("tea_ingredient",
         db.Model.metadata,
         db.Column("tea", db.Integer, db.ForeignKey("tea.id"), primary_key=True),
         db.Column("ingredient", db.Integer, db.ForeignKey("ingredient.id"), primary_key=True)
 )
-
-class BrewData(db.Model):
-    # TODO: normalize
-    __abstract__ = True
-
-    temperature = db.Column(db.Float)
-    brewtime = db.Column(db.Float)
-    boiled = db.Column(db.Boolean)
-
-class Named(db.Model):
-    __abstract__ = True
-
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(256), nullable = False)
 
 class Ingredient(Named):
     teas = db.relationship("Tea", secondary = teaingredient, back_populates = "ingredients")
@@ -39,7 +26,7 @@ class Ingredient(Named):
             response.append((row["id"], row["name"]))
         return response
 
-class Review(BrewData):
+class Review(BrewData, Timestamped):
     id = db.Column(db.Integer, primary_key = True)
     user = db.Column(db.Integer, db.ForeignKey('account.id'))
     title = db.Column(db.String(256))
@@ -56,6 +43,35 @@ class Review(BrewData):
         self.temperature = temperature
         self.brewtime = brewtime
         self.boiled = boiled
+
+    @staticmethod
+    def list(user = None, tea = None):
+        if user:
+            if tea:
+                stmt = text("SELECT tea.id, tea.name, review.id, review.title, review.score FROM review"
+                          + " JOIN tea ON tea.id = review.tea"
+                          + " WHERE review.user = :user"
+                          + " AND review.tea = :tea"
+                          + " ORDER BY score DESC").params(user=user, tea=tea)
+            else:
+                stmt = text("SELECT tea.id, tea.name, review.id, review.title, review.score FROM review"
+                          + " JOIN tea ON tea.id = review.tea"
+                          + " WHERE review.user = :user"
+                          + " ORDER BY score DESC").params(user=user)
+        elif tea:
+            stmt = text("SELECT tea.id, tea.name, review.id, review.title, review.score FROM review"
+                      + " JOIN tea ON tea.id = review.tea"
+                      + " WHERE review.tea = :tea"
+                      + " ORDER BY score DESC").params(tea=tea)
+        else:
+            stmt = text("SELECT tea.id, tea.name, review.id, review.title, review.score FROM review"
+                      + " JOIN tea ON tea.id = review.tea"
+                      + " ORDER BY score DESC")
+        res = db.engine.execute(stmt)
+        ret = []
+        for row in res:
+            ret.append({"tea":{"id":row[0], "name":row[1]}, "review":{"id":row[2], "title":row[3], "score":row[4]}})
+        return ret
 
 class Tea(BrewData, Named):
     ingredients = db.relationship("Ingredient", secondary = teaingredient, back_populates = "teas")
