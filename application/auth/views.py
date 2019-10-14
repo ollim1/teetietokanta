@@ -30,22 +30,23 @@ def auth_logout():
 def auth_add_user():
     if request.method == "GET":
         return render_template("auth/add_user.html", form = AddUserForm())
-
-    form = AddUserForm(request.form)
-
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            return render_template("auth/add_user.html", form = form,
-                                   error = "Käyttäjänimi on jo käytössä")
-
-        user = User(form.name.data, form.username.data, form.password.data)
-        user.role = Role.query.filter_by(name="user").first().id
-        db.session.add(user)
-        db.session.commit()
-        print("Käyttäjä %s luotu" % user.name)
-        login_user(user)
     else:
-        print("validation failed")
-        return render_template("auth/add_user.html", form = form, error = "Salasanojen on oltava sama")
-    return redirect(url_for("index"))
+        form = AddUserForm(request.form)
+        errors = []
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if not user:
+                user = User(form.name.data, form.username.data, form.password.data)
+                user.role = Role.query.filter_by(name="user").first().id
+                db.session.add(user)
+                db.session.commit()
+                print("Käyttäjä %s luotu" % user.name)
+                login_user(user)
+            else:
+                errors.append("Käyttäjänimi on jo käytössä.")
+        else:
+            errors.append("Tarkista lomakkeen tiedot.")
+        if len(errors) > 0:
+            return render_template("auth/add_user.html", form = form,
+                                   errors = errors)
+        return redirect(url_for("index"))
