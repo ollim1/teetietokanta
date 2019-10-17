@@ -19,7 +19,7 @@ def view_review():
     id = request.args.get("id")
     review = db.session.query(Review).get(id)
     if not review:
-        return error(404)
+        return abort(404)
     if current_user and current_user.is_authenticated and current_user.id == review.user:
         user = db.session.query(User).get
         return redirect(url_for("modify_review", review = review))
@@ -33,7 +33,7 @@ def modify_review():
         id = request.args.get("id")
         review = db.session.query(Review).get(id)
         if not review:
-            return error(404)
+            return abort(404)
         if current_user and current_user.is_authenticated and current_user.id == review.user:
             return render_template("tea/reviews/modify.html", form=ReviewForm(data = {"score": review.score, "title":review.title, "text":review.text, "add_brewinfo":true, "temperature":review.temperature, "brewtime":review.brewtime, "boiled": review.boiled}), review = review)
         else:
@@ -63,22 +63,26 @@ def add_review():
     else:
         form = ReviewForm(request.form)
         id = request.form.get("id")
-        score = form.score.data
-        title = form.title.data
-        text = form.text.data
-        add_brewinfo = form.add_brewinfo.data
-        review = None
-        if add_brewinfo:
-            temperature = request.form.get("temperature")
-            brewtime = request.form.get("brewtime")
-            boiled = request.form.get("boiled") == "y"
-            review = Review(user = current_user.id, title = title, tea = id, score = int(score), content = text, temperature = temperature, brewtime = brewtime, boiled = boiled)
+        if form.validate_on_submit():
+            score = form.score.data
+            title = form.title.data
+            text = form.text.data
+            add_brewinfo = form.add_brewinfo.data
+            review = None
+            if add_brewinfo:
+                temperature = request.form.get("temperature")
+                brewtime = request.form.get("brewtime")
+                boiled = request.form.get("boiled") == "y"
+                review = Review(user = current_user.id, title = title, tea = id, score = int(score), content = text, temperature = temperature, brewtime = brewtime, boiled = boiled)
+            else:
+                review = Review(user = current_user.id, title = title,  tea = id, score = int(score), content = text, temperature = None, brewtime = None, boiled = None)
+            print("current_user is %s" % current_user.id)
+            print("tea is " + str(id))
+            db.session.add(review)
+            db.session.commit()
         else:
-            review = Review(user = current_user.id, title = title,  tea = id, score = int(score), content = text, temperature = None, brewtime = None, boiled = None)
-        print("current_user is %s" % current_user.id)
-        print("tea is " + str(id))
-        db.session.add(review)
-        db.session.commit()
+            print("validation failed")
+            return redirect(url_for("add_review", id = id))
         return redirect(url_for("teas_page"))
 
 # TODO: implement listing and editing of reviews

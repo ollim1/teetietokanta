@@ -2,6 +2,9 @@
 
 {% block body %}
 <h2>Lisää teetyyppi</h2>
+{% for error in errors %}
+<div class="alert alert-danger">{{error}}</div>
+{% endfor %}
 <div class="pane form">
   <form class="form-inline" action="{{url_for('add_teatype')}}" method="POST">
     <div class="form-group">

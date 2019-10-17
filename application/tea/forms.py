@@ -17,8 +17,8 @@ class IngredientForm(FlaskForm):
 
 class BrewDataForm(FlaskForm):
     __abstract__ = True
-    temperature = FloatField("Lämpötila", [validators.InputRequired()])
-    brewtime = FloatField("Haudutuksen pituus (min)", [validators.NumberRange(min=0), validators.InputRequired()])
+    temperature = FloatField("Lämpötila", [validators.InputRequired(), validators.NumberRange(min=-10, max=110)])
+    brewtime = FloatField("Haudutuksen pituus (min)", [validators.NumberRange(min=0, max=60), validators.InputRequired()])
     boiled = BooleanField("Keitetty")
 
     class Meta:
@@ -26,7 +26,7 @@ class BrewDataForm(FlaskForm):
 
 class ReviewForm(BrewDataForm):
     score = RadioField("Arvosana", [validators.InputRequired()], choices = [(1, "★"), (2, "★★"), (3, "★★★"), (4, "★★★★"), (5, "★★★★★")])
-    title = StringField("Otsikko", [validators.Length(max=255)])
+    title = StringField("Otsikko", [validators.Length(min=1, max=255)])
     text = TextAreaField("Teksti")
     add_brewinfo = BooleanField("Lisää haudutustiedot", default = "unchecked")
 
@@ -46,7 +46,7 @@ class TeaModificationForm(BrewDataForm):
     """
     Used for both filling out the initial information and modifying it later.
     """
-    name = StringField("Nimi", [validators.Length(min=1)])
+    name = StringField("Nimi", [validators.Length(min=1, max=255)])
     type = SelectField("Teetyyppi")
 
     class Meta:

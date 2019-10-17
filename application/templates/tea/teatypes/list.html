@@ -5,7 +5,10 @@
   <h2> Teetyypit </h2>
   <a class="btn btn-primary" href="{{url_for('add_teatype')}}">Lisää uusi</a>
 </div>
-<div clas="pane" id="list">
+<div class="pane" id="list">
+  {% for error in errors %}
+  <div class="alert alert-danger">{{error}}</div>
+  {% endfor %}
   <table class="table">
     <thead>
       <th scope="col">Teetyyppi</th>

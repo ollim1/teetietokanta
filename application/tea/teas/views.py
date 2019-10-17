@@ -35,11 +35,15 @@ def add_tea():
     if request.method == "GET":
         return render_template("tea/teas/add.html", form = TeaNameForm())
     if request.method == "POST":
-        name = request.form.get("name")
-        tea = Tea(name)
-        db.session.add(tea)
-        db.session.commit()
-        return redirect(url_for("modify_tea", id = tea.id))
+        form = TeaNameForm(request.form)
+        if form.validate_on_submit():
+            name = form.name.data
+            tea = Tea(name)
+            db.session.add(tea)
+            db.session.commit()
+            return redirect(url_for("modify_tea", id = tea.id))
+        else:
+            return redirect(url_for("add_tea"))
 
 @app.route("/tea/teas/modify", methods=["GET", "POST"])
 @login_required()
@@ -60,18 +64,35 @@ def modify_tea():
             abort(404)
     else:
         id = request.form.get("id") # input type "hidden", fill in using form parameters
-        name = request.form.get("name")
-        temperature = request.form.get("temperature")
-        brewtime = request.form.get("brewtime")
-        boiled = request.form.get("boiled") == "y"
-        type = int(request.form.get("type"))
+        form = TeaModificationForm(request.form)
+        name = form.name.data
+        temperature = form.temperature.data
+        brewtime = form.brewtime.data
+        boiled = form.boiled.data
+        type = form.type.data
+        errors = []
+        # FlaskForm's validate_on_submit randomly decided to stop working
+        if len(name) < 1 or len(name) > 255:
+            errors.append("Nimen pituuden on oltava välillä 1-255.")
+        if not isinstance(temperature, float) or temperature < -10 or temperature > 110:
+            errors.append("Lämpötilan on oltava välillä -10-110 °C")
+        if not isinstance(brewtime, float) or brewtime < 0 or brewtime > 60:
+            errors.append("Haudutusajan on oltava välillä 0-60 min")
+        if not isinstance(brewtime, float) or brewtime < 0 or brewtime > 60:
+            errors.append("Haudutusajan on oltava välillä 0-60 min")
+        if type == -1:
+            type = None
+        elif int(type) < 1:
+            # could not figure out how to get query row count efficiently with just orm, may explode
+            errors.append("Virheellinen teetyypin indeksi.")
+        if len(errors) > 0:
+            return redirect(url_for("modify_tea", id = id))
         tea = db.session.query(Tea).get(id)
         tea.name = name
         tea.temperature = temperature
         tea.brewtime = brewtime
         tea.boiled = boiled
-        if type != -1:
-            tea.type = type
+        tea.type = type
         db.session.commit()
         return redirect(url_for("view_tea", id = id))
 

@@ -15,7 +15,7 @@ def auth_login():
         user = User.query.filter_by(username=form.username.data).first()
         if not (user and bcrypt.check_password_hash(user.password_hash, form.password.data)):
             return render_template("auth/loginform.html", form = form,
-                                   error = "Tarkista käyttäjänimi tai salasana.")
+                                   error = "Tarkista käyttäjänimi ja salasana.")
 
         print("Käyttäjä %s tunnistettiin" % user.name)
         login_user(user)
