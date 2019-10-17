@@ -14,6 +14,34 @@ def reviews_page():
     reviews = Review.list(user = current_user.id)
     return render_template("tea/reviews/list.html", reviews = reviews)
 
+@app.route("/tea/reviews/view")
+def view_review():
+    id = request.args.get("id")
+    review = db.session.query(Review).get(id)
+    if not review:
+        return error(404)
+    if current_user and current_user.is_authenticated and current_user.id == review.user:
+        user = db.session.query(User).get
+        return redirect(url_for("modify_review", review = review))
+    else:
+        return render_template("tea/reviews/view.html", review = review)
+        
+@app.route("/tea/reviews/modify", methods=["GET", "POST"])
+@login_required()
+def modify_review():
+    if request.method == "GET":
+        id = request.args.get("id")
+        review = db.session.query(Review).get(id)
+        if not review:
+            return error(404)
+        if current_user and current_user.is_authenticated and current_user.id == review.user:
+            return render_template("tea/reviews/modify.html", form=ReviewForm(data = {"score": review.score, "title":review.title, "text":review.text, "add_brewinfo":true, "temperature":review.temperature, "brewtime":review.brewtime, "boiled": review.boiled}), review = review)
+        else:
+            return error(503)
+    else:
+        return error(503)
+
+
 @app.route("/tea/reviews/add", methods=["GET", "POST"])
 @login_required()
 def add_review():

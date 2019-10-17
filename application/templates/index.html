@@ -10,4 +10,13 @@
   <li> <a href="{{url_for('reviews_page')}}">Arvostelut</a> </li>
   {%endif%}
 </ul>
+<h3>Tilastoja</h3>
+<table class="table">
+  <tbody>
+    <tr>
+      <th scope="row">Arvostelemattomia teelajikkeita</th>
+      <td><a href="{{url_for('teas_page')}}">{%if unreviewed_count%}{{unreviewed_count}}{%else%}0{%endif%}</a></td>
+    </tr>
+  </tbody>
+</table>
 {% endblock %}

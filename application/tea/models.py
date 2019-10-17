@@ -121,6 +121,24 @@ class Tea(BrewData, Named):
         for row in res:
             response.append((row["id"], row["name"]))
         return response
+    
+    @staticmethod
+    def count_unreviewed():
+        stmt = text("select count(tea.id) from tea left join review on review.tea = tea.id group by tea.id having count(review.id) = 0")
+        res = db.engine.execute(stmt).fetchall()
+        count = None
+        for row in res:
+            count = row[0]
+        return count
+
+    @staticmethod
+    def list_unreviewed():
+        stmt = text("select tea.id, tea.name from tea left join review on review.tea = tea.id group by tea.id having count(review.id) = 0")
+        res = db.engine.execute(stmt).fetchall()
+        response = []
+        for row in res:
+            response.append((row["id"], row["name"]))
+        return response
 
 class TeaType(Named):
     # TODO: type-specific default brewing information

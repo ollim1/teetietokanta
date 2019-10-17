@@ -18,15 +18,15 @@ class User(db.Model):
 
     name = db.Column(db.String(144), nullable=False)
     username = db.Column(db.String(144), nullable=False)
-    password = db.Column(db.String(144), nullable=False)
+    password_hash = db.Column(db.String(255))
     role = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     reviews = db.relationship("Review")
     role_object = db.relationship("Role", backref="users")
-    def __init__(self, name, username, password):
+    def __init__(self, name, username, password_hash):
         self.name = name
         self.username = username
-        self.password = password
+        self.password_hash = password_hash
   
     def get_id(self):
         return self.id
