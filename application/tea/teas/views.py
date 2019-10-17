@@ -80,13 +80,15 @@ def modify_tea():
             errors.append("Haudutusajan on oltava välillä 0-60 min")
         if not isinstance(brewtime, float) or brewtime < 0 or brewtime > 60:
             errors.append("Haudutusajan on oltava välillä 0-60 min")
-        if type == -1:
-            type = None
-        elif int(type) < 1:
+        if int(type) < 1:
             # could not figure out how to get query row count efficiently with just orm, may explode
-            errors.append("Virheellinen teetyypin indeksi.")
+            if int(type) == -1:
+                type = None
+            else:
+                errors.append("Virheellinen teetyypin indeksi.")
         if len(errors) > 0:
             return redirect(url_for("modify_tea", id = id))
+        print(errors)
         tea = db.session.query(Tea).get(id)
         tea.name = name
         tea.temperature = temperature
