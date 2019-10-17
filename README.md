@@ -8,7 +8,7 @@ Tietokanta teelajikkeille ja niiden arvosteluille.
 
 [Tietokantakuvaus](dokumentaatio/tietokanta.md)
 
-[Tietokantakaavio](dokumentaatio/tietokantakaavio.png)
+[Tietokantakaavio](dokumentaatio/tietokantakaavio_uusi.png)
 
 [User storyt](dokumentaatio/userstory.md)
 
