@@ -1,52 +1,135 @@
 # User storyt
-## tapaus 1
-Käyttäjä on lisäämässä tietokantaan uusia ainesosia. Käyttäjä kirjoittaa ainesosan nimen ja painaa lisäysnappia.
-
-Kysely:
+- Rekisteröimätön käyttäjä voi luoda uuden käyttäjätilin.
 
 ```
-insert into ingredient (name) values (?)
+insert into account (id, date_created, date_modified, name, username, password_hash
+  values (?, ?, ?, ?, ?, ?) 
 ```
 
-## tapaus 2
-Käyttäjä voi lisää tietokantaan uuden teetyypin. Teetyyppi kirjoitetaan lomakkeeseen ja tiedot tallennetaan tallennusnapilla.
+- Rekisteröimätön käyttäjä voi kirjautua sisään.
 
-Kysely:
+```
+select id, password_hash from account
+  where name = ?
+```
+
+- Käyttäjä voi lisätä tietokantaan ainesosia.
+
+```
+insert into ingredient (name)
+  values (?)
+```
+
+- Järjestelmänvalvoja voi poistaa ainesosia.
+
+```
+delete from tea_ingredient
+  where ingredient = ?
+delete from ingredient
+  where id = ?
+```
+
+- Järjestelmänvalvoja voi muuttaa ainesosan nimeä.
+
+```
+update ingredient set name = ?
+  where id = ?
+```
+
+- Käyttäjä voi lisätä tietokantaan teetyyppejä.
 
 ```
 insert into tea_type (name)
-  values (?)`
+  values (?)
 ```
 
-## tapaus 3
-Käyttäjä on lisäämässä uutta teetä tietokantaan. Käyttäjä valitsee ainesosat kuten teelehdet ja mausteet valikosta ja määrittää teen nimen ja haudutustiedot. Käyttäjä syöttää teen nimen ja haudutustiedot lomakkeeseen ja valitsee teen tyypin. Tämän jälkeen käyttäjä lisää teen tietoihin ainesosia yksi kerrallaan listan sisältävästä lomakkeesta. 
-Käyttäjä (mahdollisesti vain järjestelmän ylläpitäjä) voi muokata teen tietoja klikkaamalla teetä listassa ja tämän jälkeen näkyvällä tarkempia tietoja tarjoavalla sivulla muokkausnappia. Muokkauslomake toimii samalla tavalla kuin lisäyslomake.
+- Järjestelmänvalvoja voi poistaa teetyyppejä.
 
-Kyselyt:
+```
+update tea set type = NULL
+  where type = ?
+delete from tea_type
+  where id = ?
+```
+
+- Järjestelmänvalvoja voi muuttaa teetyypin nimeä.
+
+```
+update tea_type set name = ?
+  where id = ?
+```
+
+- Käyttäjä voi lisätä uuden teen tietokantaan.
+  - Käyttäjä valitsee teetyypin valikosta ja määrittää haudutustiedot.
 
 ```
 insert into tea (temperature, brewtime, boiled, name, type)
   values (?, ?, ?, ?, ?)`
+```
+
+- Käyttäjä voi lisätä teehen ainesosia.
+
+```
 insert into tea_ingredient (tea, ingredient)
   values (?, ?)
 ```
-## tapaus 4
-Käyttäjä haluaa kirjoittaa arvostelun teestä tai haudukkeesta. Käyttäjä kirjautuu sisään käyttäjätunnuksellaan, kirjoittaa arvostelutekstin ja antaa arvosanan. Käytetyn haudutuksen yksityiskohdat ovat toivottuja tilastoja muiden käyttöä varten.
 
-Kyselyt:
+- Käyttäjä voi muokata teelajikkeen tietoja.
+
+```
+update tea set
+  name = ?,
+  temperature = ?,
+  brewtime = ?,
+  boiled = ?,
+  type = ?
+  where tea.id = ?
+```
+
+- Käyttäjä voi kirjoittaa arvostelun teestä.
 
 ```
 insert into review (temperature, brewtime, boiled, user, tea, score, content)
   values (?, ?, ?, ?, ?, ?)
 ```
 
-## tapaus
-Käyttäjä voi nähdä kirjoittamansa arvostelut omalla sivullaan. Käyttäjä voi myös nähdä johonkin teehen liittyvät arvostelut teen sivulla
-
-Kyselyt:
+- Käyttäjä voi nähdä kirjoittamansa arvostelut omalla sivullaan.
 
 ```
 select tea.name, review.title, review.score from review
   join tea on tea.id = review.tea
+  where review.user = ?
   order by score desc
+```
+
+- Käyttäjä voi nähdä teelajikkeeseen liittyvät arvostelut teelajikkeen sivulla.
+
+```
+select tea.name, review.title, review.score from review
+  join tea on tea.id = review.tea
+  where review.tea = ?
+  order by score desc
+```
+
+- Käyttäjä voi lukea arvosteluja.
+
+```
+select tea.id, tea.name from tea
+  where tea.id = ?
+select * from review
+  where review.id = ?
+```
+
+- Käyttäjä voi muokata omia arvostelujaan.
+
+```
+update review set
+  date_modified = ?,
+  title = ?,
+  score = ?,
+  content = ?,
+  temperature = ?,
+  brewtime = ?,
+  boiled = ?
+  where id = ?
 ```
