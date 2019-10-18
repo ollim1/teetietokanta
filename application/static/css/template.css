@@ -16,6 +16,16 @@
 .page-header a {
   float: right;
 }
+.container, .container-fluid {
+  padding-left: 0pt;
+  padding-right: 0pt;
+}
+.brewdata .row.label {
+  height: 4em;
+}
+.brewdata table .form-check-input {
+  margin: auto;
+}
 form {
   display: grid;
 }

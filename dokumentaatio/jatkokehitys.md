@@ -1,8 +1,7 @@
 ### Jatkokehitys
 - Puuttuvaa toiminnallisuutta:
-  - Arvostelujen tarkastelu, poistaminen ja muokkaus
+  - Arvostelujen poistaminen ja muokkaus
   - Käyttäjätietojen tarkastelu, poistaminen ja muokkaus
-  - Cross-site request forgery -suojauksen toteuttaminen jäi epäselväksi.
   - Brewtime ja timestampit jäivät normalisoimatta ajanpuutteen vuoksi.
   - `application/tea/models.py` on yksi iso tiedosto, sillä siinä olevat luokat ovat riippuvaisia toisistaan ja niiden riippuvuuksien selvittäminen ilman, että tulee kiertoriippuvuuksia vie aikaa.
   - Joidenkin tietokohteiden kohdalla ei tarkisteta, onko samannimisiä rivejä jo olemassa.

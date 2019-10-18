@@ -25,7 +25,7 @@ class BrewDataForm(FlaskForm):
         csrf = False
 
 class ReviewForm(BrewDataForm):
-    score = RadioField("Arvosana", [validators.InputRequired()], choices = [(1, "★"), (2, "★★"), (3, "★★★"), (4, "★★★★"), (5, "★★★★★")])
+    score = RadioField("Arvosana", [validators.Optional()], choices = [(1, "★"), (2, "★★"), (3, "★★★"), (4, "★★★★"), (5, "★★★★★")])
     title = StringField("Otsikko", [validators.Length(min=1, max=255)])
     text = TextAreaField("Teksti")
     add_brewinfo = BooleanField("Lisää haudutustiedot", default = "unchecked")

@@ -5,38 +5,45 @@
 <div class="pane form">
   <form class="form" action="{{url_for('add_review')}}" method="POST">
     <input type="hidden" name="id" value="{{tea.id}}">
-    <div class="row">
-      <div class="col-3">
+    <div class="container-fluid row">
+      <div class="col-4">
         {%for subfield in form.score%}
-        <div class="col form-check form-check-inline">
+        <div class="container col form-check form-check-inline">
           <div class="col-1">{{subfield(class_="score-radio form-control")}}</div>
           <div class="col">{{subfield.label(class_="score")}}</div>
         </div>
         {%endfor%}
       </div>
-      <div class="col form-group">
+      <div class="col-8 form-group">
         {{form.title(class_="form-control", placeholder=form.title.label.text)}}
         {{form.text(class_="form-control", placeholder=form.text.label.text)}}
       </div>
     </div>
 
-    <div id="brewdata">
-      <div class="form-check" class="col">
+    <div class="container row">
+      <div class="form-check col">
         {{form.add_brewinfo(class_="form-check-input")}}
         {{form.add_brewinfo.label(class_="form-check-label")}}
       </div>
-      <div class="form-group" style="clear: both">
-        {{form.temperature.label(class_="control-label")}}
-        {{form.temperature(class_="form-control", placeholder=form.temperature.label.text)}}
-      </div>
-      <div class="form-group" style="clear: both">
-        {{form.brewtime.label(class_="control-label")}}
-        {{form.brewtime(class_="form-control", placeholder=form.brewtime.label.text)}}
-      </div>
-      <div class="form-check" style="clear: both">
-        {{form.boiled(class_="form-check-input")}}
-        {{form.boiled.label(class_="form-check-label")}}
-      </div>
+    </div>
+    <div class="brewdata">
+      <table class="form-group table">
+        <!-- tables shouldn't be used inside forms, but I don't know of a neater way to do this -->
+        <thead>
+          <tr>
+            <th scope="col">{{form.temperature.label.text}}</th>
+            <th scope="col">{{form.brewtime.label.text}}</th>
+            <th scope="col">{{form.boiled.label.text}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{form.temperature(class_="form-control", placeholder=form.temperature.label.text)}}</td>
+            <td>{{form.brewtime(class_="form-control", placeholder=form.brewtime.label.text)}}</td>
+            <td>{{form.boiled(class_="form-check-input")}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <input type="submit" class="btn btn-primary form-control" value="Tallenna">
   </form>

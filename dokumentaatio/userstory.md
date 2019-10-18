@@ -1,12 +1,12 @@
 # User storyt
-- Rekisteröimätön käyttäjä voi luoda uuden käyttäjätilin.
+- Rekisteröimätön vieras voi luoda uuden käyttäjätilin.
 
 ```
 insert into account (id, date_created, date_modified, name, username, password_hash
   values (?, ?, ?, ?, ?, ?) 
 ```
 
-- Rekisteröimätön käyttäjä voi kirjautua sisään.
+- Rekisteröitynyt vieras voi kirjautua sisään.
 
 ```
 select id, password_hash from account

@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Arvostelu teelle {{tea.name}}</h2>
+<div class="pane">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {%if review.title%}
+        <h3>{{review.title}}</h3>
+        {%endif%}
+        <table class="table">
+          <tbody>
+            <tr>
+              <th scope="row">Arvosana</th>
+              <td>{{review.score}}</td>
+            </tr>
+            {%if review.temperature%}
+            <tr>
+              <th scope="row">Haudutuslämpötila</th>
+              <td>{{review.temperature}}</td>
+            </tr>
+            {%endif%}
+            {%if review.brewtime%}
+            <tr>
+              <th scope="row">Haudutusaika</th>
+              <td>{{review.brewtime}}</td>
+            </tr>
+            {%endif%}
+            {%if review.boiled%}
+            <tr>
+              <th scope="row">Keitetty</th>
+              <td>{{review.boiled}}</td>
+            </tr>
+            {%endif%}
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <p>
+        {{review.content}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

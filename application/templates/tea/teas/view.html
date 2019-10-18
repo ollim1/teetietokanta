@@ -61,10 +61,10 @@
         {% for row in reviews %}
         <tr>
           <td>
-            {%if row['review']['title'] %}<span class="teatype teaitem">{{row['review']['title']}}</span>{%endif%}
+            {%if row['review']['title'] %}<a href="{{url_for('view_review', id=row['review']['id'])}}" class="teatype teaitem">{{row['review']['title']}}</a>{%endif%}
           </td>
           <td>
-            <span class="number teaitem">{{row['review']['score']}}</span>
+            <a href="{{url_for('view_review', id=row['review']['id'])}}" class="number teaitem">{{row['review']['score']}}</a>
           </td>
         </tr>
         {% endfor %}

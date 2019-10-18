@@ -10,6 +10,8 @@
 ### attribuutit
 - Käyttäjä
   - nimi
+  - luontiaika
+  - muokkausaika
 - Rooli
   - nimi
 - Teelaji
@@ -28,7 +30,7 @@
   - arvosana
   - otsikko
   - teksti
-  - lisäysaika
+  - luontiaika
   - muokkausaika
   - haudutusaika
   - haudutuslämpötila
@@ -45,12 +47,12 @@
 
 ### tietokantakaavio
 ```
-[Käyttäjä|(pk) id:integer;nimi:string;salasanan hash]
+[Käyttäjä|(pk) id:integer;luontiaika:date;muokkausaika:date;nimi:string;salasanan hash]
 [Rooli|(pk) id:integer;nimi:string]
 [Teelajike|(pk) id:integer;nimi:string;(fk) tyyppi:integer;onkoBlend:boolean;haudutusaika:integer;lämpötila:integer;keitetäänkö:boolean]
 [Teetyyppi|(pk) id:integer;nimi:string]
 [Ainesosa|(pk) id:integer;nimi:string]
-[Arvostelu|(pk) id:integer;(fk) tee:integer;arvosana:integer;otsikko:string;teksti:string;haudutusaika:float;lämpötila:float;keitetty:boolean]
+[Arvostelu|(pk) id:integer;luontiaika:date;muokkausaika:date;(fk) tee:integer;arvosana:integer;otsikko:string;teksti:string;haudutusaika:float;lämpötila:float;keitetty:boolean]
 [TeeAinesosa|(fk) tee:integer; (fk) ainesosa:integer]
 
 [Käyttäjä]1--*[Arvostelu]
@@ -64,12 +66,12 @@
 - Tallennetaan tietokanta sovelluksessa englanniksi.
 
 ```
-[User|(pk) id:integer;name:string;password_hash:string]
+[User|(pk) id:integer;date_created:date;date_modified:date;name:string;password_hash:string]
 [Role|(pk) id:integer;nimi:string]
 [Tea|(pk) id:integer;name:string;(fk) type:integer;brewtime:float;temperature:float;boiled:boolean]
 [TeaType|(pk) id:integer;name:string]
 [Ingredient|(pk) id:integer;name:string]
-[Review|(pk) id:integer;(fk) tea:integer;score:integer;title:string;content:string;brewtime:float;temperature:float;boiled:boolean]
+[Review|(pk) id:integer;date_created:date;date_modified:date;(fk) tea:integer;score:integer;title:string;content:string;brewtime:float;temperature:float;boiled:boolean]
 [TeaIngredient|(fk) tea:integer; (fk) ingredient:integer]
 
 [User]1--*[Review]
